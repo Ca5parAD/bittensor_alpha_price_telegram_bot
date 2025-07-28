@@ -2,11 +2,11 @@ from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 import sys
-sys.path.append('/Users/caspar/Bittensor')
+sys.path.append('')
 import bittensor
 
-TOKEN: Final = '7915830745:AAFnNme6-oFdh3o9zFR4EK_WDr6oPtkfBss'
-BOT_USERNAME: Final = '@test_blahhh_bot'
+TOKEN: Final = ''
+BOT_USERNAME: Final = ''
 
 subtensor = bittensor.subtensor(network='finney')
 
