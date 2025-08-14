@@ -1,0 +1,8 @@
+# Ignores changes to the config file from the blank template
+*.json
+
+# Ignores pycache
+__pycache__/
+
+# Ignores all log files
+*.log
