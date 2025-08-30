@@ -3,7 +3,6 @@ import sys
 import traceback
 
 
-# Now import telegram and other modules after logging is configured
 from telegram import Update
 from telegram.ext import Application, ContextTypes, _contexttypes
 
@@ -44,5 +43,5 @@ if __name__ == '__main__':
     app.add_error_handler(error)
 
     # Start polling for new updates from Telegram
-    logger.info('Polling...')
+    logger.info('polling...')
     app.run_polling()

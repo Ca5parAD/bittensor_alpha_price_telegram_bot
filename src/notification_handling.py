@@ -24,4 +24,3 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
 
     await context.bot.send_message(chat_id=context.job.chat_id, text=message)
 
-    pass

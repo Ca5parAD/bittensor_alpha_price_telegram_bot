@@ -1,8 +1,10 @@
 from typing import Final
 
 START_MESSAGE: Final = (
-    "Welcome to the Bittensor Subnet Bot! Get alpha prices with /alpha_price "
-    "or manage notifications with /notification_settings. Use /help for details."
+    "Welcome to the Bittensor Subnet Bot!\n\n"
+    "Get alpha prices with /alpha_price\n\n"
+    "Manage notifications with /notification_settings\n\n"
+    "Or use /help for details"
 )
 
 HELP_MESSAGE: Final  = (

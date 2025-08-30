@@ -6,3 +6,6 @@ __pycache__/
 
 # Ignores all log files
 *.log
+
+# Ignores config file
+config.py
