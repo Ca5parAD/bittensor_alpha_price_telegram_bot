@@ -1,7 +1,7 @@
 import logging
 
 
-def setup_root_logger(log_file="basic_bot.log"):
+def setup_root_logger(log_file="basic_bot.log") -> None:
     # Configure root logger
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
@@ -20,10 +20,10 @@ def setup_root_logger(log_file="basic_bot.log"):
 
     # Explicitly set levels for our modules
     logging.getLogger('start').setLevel(logging.DEBUG)
-    logging.getLogger('help').setLevel(logging.DEBUG)
     logging.getLogger('query_subnet_price').setLevel(logging.DEBUG)
+    logging.getLogger('settings').setLevel(logging.DEBUG)
+    logging.getLogger('help').setLevel(logging.DEBUG)
 
-    return logging.getLogger(__name__)
 
     
 

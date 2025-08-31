@@ -11,20 +11,18 @@ logger = logging.getLogger(__name__)
 # Conversation states
 ENTER_SETTING_STATE, STORE_SUBNETS_STATE, STORE_NOTIFICATION_FREQUENCY_STATE = range(3)
 
-async def show_current_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def show_current_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        "\033[1m" + "Your current settings:\n" + "\033[0m",
-        f"Recieve notifications: {context.user_data['send_notifications_flag']}\n"
-        f"Selected subnets: {context.user_data['notification_subnets']}\n"
-        f"Notification frequency: {context.user_data['notification_frequency']}"
+        f"Your current settings:\n\
+        Receive notifications: {context.user_data['send_notifications_flag']}\n\
+        Selected subnets: {context.user_data['notification_subnets']}\n\
+        Notification frequency: {context.user_data['notification_frequency']}"
     )
     await update.message.reply_text(SETTINGS_COMMANDS_MESSAGE) 
 
 # Prints current settings and list of commands
 async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("Notification Settings Conversation Started info lvl")
-    logger.warning("Notification Settings Conversation Started warn lvl")
-    logger.error("Notification Settings Conversation Started error lvl")
+    logger.info("Notification Settings Conversation Started")
     await show_current_settings(update, context)
     return ENTER_SETTING_STATE
 
@@ -99,8 +97,8 @@ async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     return ENTER_SETTING_STATE
 
 
-notification_settings_handler = ConversationHandler(
-    entry_points=[CommandHandler("notification_settings", settings_command)],
+settings_handler = ConversationHandler(
+    entry_points=[CommandHandler("settings", settings_command)],
     states={
         ENTER_SETTING_STATE: [
             CommandHandler("enable_disable", enable_disable),

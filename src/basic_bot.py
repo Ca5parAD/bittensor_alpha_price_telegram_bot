@@ -12,7 +12,7 @@ from config import TOKEN, BOT_USERNAME
 from start import start_handler
 from help import help_handler
 from query_subnet_price import query_netuid_price_handler
-from settings import notification_settings_handler
+from settings import settings_handler
 
 
 setup_root_logger()
@@ -23,10 +23,10 @@ logger = logging.getLogger(__name__)
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Log short error message to file (INFO+)
     logger.exception(f"Update caused error: {context.error}")
-    # Print traceback to terminal if error is WARNING or higher
+    '''# Print traceback to terminal if error is WARNING or higher
     if hasattr(context, 'error') and context.error:
         print(f"\n[ERROR] Update: {update}\nError: {context.error}")
-        traceback.print_exception(type(context.error), context.error, context.error.__traceback__)
+        traceback.print_exception(type(context.error), context.error, context.error.__traceback__)'''
 
 
 if __name__ == '__main__':
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     # Register command handlers for the bot
     app.add_handler(start_handler)  # /start command
     app.add_handler(query_netuid_price_handler)  # /alpha_price command
-    app.add_handler(notification_settings_handler)  # /notification_settings command
+    app.add_handler(settings_handler)  # /notification_settings command
     app.add_handler(help_handler)  # /help command
 
     # Register global error handler for uncaught exceptions in handlers

@@ -3,7 +3,7 @@ from typing import Final
 START_MESSAGE: Final = (
     "Welcome to the Bittensor Subnet Bot!\n\n"
     "Get alpha prices with /alpha_price\n\n"
-    "Manage notifications with /notification_settings\n\n"
+    "Manage notifications with /settings\n\n"
     "Or use /help for details"
 )
 
@@ -11,7 +11,7 @@ HELP_MESSAGE: Final  = (
     "Bittensor Subnet Bot Help:\n\n"
     "- /start: Displays initial welcome message\n\n"
     "- /alpha_price: Query the alpha price of a Bittensor subnet (0-128)\n\n"
-    "- /notification_settings: Manage notification settings:\n"
+    "- /settings: Manage notification settings:\n"
     "   - /enable_disable: Turn notifications on or off\n"
     "   - /select_sns: Specify subnet IDs to track\n"
     "   - /notification_frequency: Set how often to receive updates\n"
