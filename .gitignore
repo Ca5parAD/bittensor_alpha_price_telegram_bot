@@ -9,3 +9,6 @@ __pycache__/
 
 # Ignores config file
 config.py
+
+# Ignores DS Store
+.DS_Store
