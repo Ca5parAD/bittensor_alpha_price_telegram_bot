@@ -4,7 +4,7 @@ START_MESSAGE: Final = (
     "Welcome to the Bittensor Subnet Bot!\n\n"
     "Get alpha prices with /alpha_price\n\n"
     "Manage notifications with /settings\n\n"
-    "Or use /help for details"
+    "Or use /help for more details"
 )
 
 HELP_MESSAGE: Final  = (

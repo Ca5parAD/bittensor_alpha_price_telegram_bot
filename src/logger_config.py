@@ -20,13 +20,6 @@ def setup_root_logger(log_file="basic_bot.log") -> None:
 
     # Explicitly set levels for our modules
     logging.getLogger('start').setLevel(logging.DEBUG)
-    logging.getLogger('query_subnet_price').setLevel(logging.DEBUG)
+    logging.getLogger('query_alpha_price').setLevel(logging.DEBUG)
     logging.getLogger('settings').setLevel(logging.DEBUG)
     logging.getLogger('help').setLevel(logging.DEBUG)
-
-
-    
-
-
-
-
