@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, 
 from utils import ENTER_ALPHA_PRICE, SELECT_COMMAND
 from messages import ALPHA_PRICE_MESSAGE
 from bittensor_calls import get_netuid_info
-from simple_commands import handle_unknown_message
+from simple_commands import top_level_directions, handle_unknown_message
 
 
 logger = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         else:
             await update.message.reply_text(f"{netuid_name} -> {netuid_price}")
         finally:
-            return query_netuid_price(update, context)
+            return await query_netuid_price(update, context)
 
     else:
         await update.message.reply_text("Thats not a valid response, please enter a number 0-128")
@@ -40,7 +40,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("Back")
-    return query_netuid_price(update, context)
+    return await top_level_directions(update, context)
 
 
 

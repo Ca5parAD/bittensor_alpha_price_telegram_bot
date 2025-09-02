@@ -19,7 +19,6 @@ def setup_root_logger(log_file="basic_bot.log") -> None:
     root_logger.addHandler(stream_handler)
 
     # Explicitly set levels for our modules
-    logging.getLogger('start').setLevel(logging.DEBUG)
+    logging.getLogger('simple_commands').setLevel(logging.INFO)
     logging.getLogger('query_alpha_price').setLevel(logging.DEBUG)
     logging.getLogger('settings').setLevel(logging.DEBUG)
-    logging.getLogger('help').setLevel(logging.DEBUG)

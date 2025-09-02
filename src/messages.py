@@ -1,8 +1,11 @@
 from typing import Final
 
 START_MESSAGE: Final = (
-    "Welcome to the Bittensor Subnet Bot!\n\n"
-    "Get alpha prices with /alpha_price\n\n"
+    "Welcome to the Bittensor Subnet Bot!"
+)
+
+TOP_LEVEL_DIRECTIONS_MESSAGE: Final = (
+    "Get alpha prices with /alpha_prices\n\n"
     "Manage notifications with /settings\n\n"
     "Or use /help for more details"
 )
@@ -10,7 +13,7 @@ START_MESSAGE: Final = (
 HELP_MESSAGE: Final  = (
     "Bittensor Subnet Bot Help:\n\n"
     "- /start: Displays initial welcome message\n\n"
-    "- /alpha_price: Query the alpha price of a Bittensor subnet (0-128)\n\n"
+    "- /alpha_prices: Query the alpha price of a Bittensor subnet (0-128)\n\n"
     "- /settings: Manage notification settings:\n"
     "   - /enable_disable: Turn notifications on or off\n"
     "   - /select_sns: Specify subnet IDs to track\n"
@@ -25,7 +28,7 @@ ALPHA_PRICE_MESSAGE: Final = (
     "- For a single SN enter its netuid\n"
     "- For multiple netuids use a comma to seperate\n"
     "- /my_sns to check your chosen SNs\n"
-    "- /back to exit conversation"
+    "- /back to go back"
 )
 
 SETTINGS_COMMANDS_MESSAGE: Final = (
@@ -49,3 +52,15 @@ SELECT_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
     "/12hrs\n"
     "/1D"
 )
+
+'''
+
+Look to use start command upon starting (not present normally)
+use an instruction at the main waiting point (top of flowchart)
+at the end of notifications prompt using this command for conversation flow guidance
+need to work out how notifications handle interrupting conversation flow
+have help command present at all times, home command aswell?
+could have a reset button which accesses start (therefore reset everything)
+help command could give user there current location and instructions to getting home
+
+'''

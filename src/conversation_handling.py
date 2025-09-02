@@ -5,9 +5,7 @@ from query_alpha_prices import query_netuid_price, enter_alpha_price_commands
 from settings import settings_command, select_setting_commands, enter_subnets_commands, select_notification_frequency_commands
 from utils import *
 
-initial_commands = [
-    CommandHandler("start", start_command),
-    CommandHandler("help", help_command),
+select_command_commands = [
     CommandHandler("alpha_prices", query_netuid_price),
     CommandHandler("settings", settings_command)
 ]
@@ -20,7 +18,7 @@ conversation_flow = ConversationHandler(
     ],
 
     states={
-        SELECT_COMMAND: initial_commands,
+        SELECT_COMMAND: select_command_commands,
         ENTER_ALPHA_PRICE: enter_alpha_price_commands,
         SELECT_SETTING: select_setting_commands,
         ENTER_SUBNETS: enter_subnets_commands,
