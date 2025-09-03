@@ -50,7 +50,8 @@ SELECT_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
     "/1hr\n"
     "/4hrs\n"
     "/12hrs\n"
-    "/1D"
+    "/1D\n\n"
+    "/back to go back"
 )
 
 '''
