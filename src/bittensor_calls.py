@@ -23,6 +23,8 @@ def valid_subnets_check(text: str) -> list[int]:
 
 
 def get_netuid_info(netuid: int):
+    subtensor = bittensor.subtensor(network='finney') # Setup bittensor network
     info = subtensor.subnet(netuid)
     logger.debug((f"{info.subnet_name} -> {info.price}"))
+    subtensor.close()
     return info.subnet_name, info.price
