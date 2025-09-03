@@ -2,7 +2,6 @@ import logging
 
 from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler
-import bittensor
 
 from messages import START_MESSAGE,TOP_LEVEL_DIRECTIONS_MESSAGE, HELP_MESSAGE
 from utils import SELECT_COMMAND, reset_settings
