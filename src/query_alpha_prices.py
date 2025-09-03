@@ -20,8 +20,7 @@ async def query_netuid_price(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("process netuid")
-
-
+    logger.debug(f"user input: {update.message.text}")
     valid_netuids, invalid_netuids = valid_subnets_check(update.message.text.strip())
 
     if not valid_netuids:
@@ -55,7 +54,6 @@ async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 enter_alpha_price_commands = [
     CommandHandler("back", back),
-    MessageHandler(filters.TEXT & ~filters.COMMAND, process_netuid),
-    MessageHandler(filters.TEXT, handle_unknown_message)
+    MessageHandler(filters.TEXT & ~filters.COMMAND, process_netuid)
 ]
 

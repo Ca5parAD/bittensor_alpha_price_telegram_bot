@@ -99,8 +99,7 @@ select_setting_commands = [
     CommandHandler("enable_disable", enable_disable),
     CommandHandler("select_sns", select_subnets),
     CommandHandler("notification_frequency", select_notification_frequency),
-    CommandHandler("back", back_select_command),
-    MessageHandler(filters.TEXT, handle_unknown_message)
+    CommandHandler("back", back_select_command)
 ]
 
 
@@ -116,7 +115,6 @@ select_notification_frequency_commands = [
     CommandHandler("4hrs", store_notification_frequency),
     CommandHandler("12hrs", store_notification_frequency),
     CommandHandler("1D", store_notification_frequency),
-    CommandHandler("back", back_select_setting),
-    MessageHandler(filters.TEXT, handle_unknown_message)
+    CommandHandler("back", back_select_setting)
 ]
 
