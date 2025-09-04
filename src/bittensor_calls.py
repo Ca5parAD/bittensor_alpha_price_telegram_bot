@@ -10,6 +10,7 @@ subtensor = bittensor.subtensor(network='finney') # Setup bittensor network
 # Validate each subnet is within range 0-128
 def valid_subnets_check(text: str) -> list[int]:
     subnets = [int(num.strip()) for num in text.split(',') if num.strip()]
+    logger.debug(f"subnets: {subnets}")
 
     valid_subnets = []
     invalid_subnets = []
@@ -19,6 +20,7 @@ def valid_subnets_check(text: str) -> list[int]:
         else:
             invalid_subnets.append(num)
 
+    logger.debug(f"valid subnets: {valid_subnets}, invalid subnets: {invalid_subnets}")
     return valid_subnets, invalid_subnets
 
 
