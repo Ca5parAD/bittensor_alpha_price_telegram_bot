@@ -1,9 +1,9 @@
 import logging
 
 from telegram import Update
-from telegram.ext import ContextTypes, CommandHandler
+from telegram.ext import ContextTypes, CommandHandler, MessageHandler, filters
 
-from messages import START_MESSAGE,TOP_LEVEL_DIRECTIONS_MESSAGE, HELP_MESSAGE
+from messages import START_MESSAGE,TOP_LEVEL_DIRECTIONS_MESSAGE, HELP_MESSAGE, UNKOWN_COMMAND_MESSAGE, UNKOWN_MESSAGE_MESSAGE
 from utils import SELECT_COMMAND, reset_settings
 
 
@@ -23,16 +23,21 @@ async def top_level_directions(update: Update, context: ContextTypes.DEFAULT_TYP
     await update.message.reply_text(TOP_LEVEL_DIRECTIONS_MESSAGE)
     return SELECT_COMMAND
 
+
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("help command")
     await update.message.reply_text(HELP_MESSAGE)
-
 help_handler = CommandHandler('help', help_command)
 
+async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    logger.info("Unknown command")
+    await update.message.reply_text(UNKOWN_COMMAND_MESSAGE)
+unkown_command_handler = MessageHandler(filters.COMMAND, unknown_command)
 
-async def handle_unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("Unknown message")
-    await update.message.reply_text("Sorry, i have no idea what your saying brev\nPlzzzzz try again")
+    await update.message.reply_text(UNKOWN_MESSAGE_MESSAGE)
+unkown_command_handler = MessageHandler(filters.TEXT, unknown_message)
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.exception(f"Update caused error: {context.error}")

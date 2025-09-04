@@ -54,14 +54,17 @@ SELECT_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
     "/back to go back"
 )
 
+UNKOWN_MESSAGE_MESSAGE: Final = ("Sorry, I don't know what you mean - I am likely expecting a command")
+
+UNKOWN_COMMAND_MESSAGE: Final = ("That's not a valid command")
+
+
+
+
 '''
 
-Look to use start command upon starting (not present normally)
-use an instruction at the main waiting point (top of flowchart)
-at the end of notifications prompt using this command for conversation flow guidance
 need to work out how notifications handle interrupting conversation flow
-have help command present at all times, home command aswell?
-could have a reset button which accesses start (therefore reset everything)
-help command could give user there current location and instructions to getting home
+notifications give command for easy navigation
+
 
 '''
