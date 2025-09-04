@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, 
 from utils import SELECT_SETTING, ENTER_SUBNETS, SELECT_NOTIF_FREQ, SELECT_COMMAND
 from messages import SETTINGS_COMMANDS_MESSAGE, SELECT_SUBNETS_MESSAGE, SELECT_NOTIFICATION_FREQUENCY_MESSAGE
 from notification_handling import set_notifications
-from simple_commands import top_level_directions, handle_unknown_message
+from simple_commands import top_level_directions
 from bittensor_calls import valid_subnets_check
 
 logger = logging.getLogger(__name__)

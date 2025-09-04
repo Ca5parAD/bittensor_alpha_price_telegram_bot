@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, 
 from utils import ENTER_ALPHA_PRICE, SELECT_COMMAND
 from messages import ALPHA_PRICE_MESSAGE
 from bittensor_calls import valid_subnets_check, get_netuid_info
-from simple_commands import top_level_directions, handle_unknown_message
+from simple_commands import top_level_directions
 
 
 logger = logging.getLogger(__name__)

@@ -32,12 +32,12 @@ help_handler = CommandHandler('help', help_command)
 async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("Unknown command")
     await update.message.reply_text(UNKOWN_COMMAND_MESSAGE)
-unkown_command_handler = MessageHandler(filters.COMMAND, unknown_command)
+unknown_command_handler = MessageHandler(filters.COMMAND, unknown_command)
 
 async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("Unknown message")
     await update.message.reply_text(UNKOWN_MESSAGE_MESSAGE)
-unkown_command_handler = MessageHandler(filters.TEXT, unknown_message)
+unknown_message_handler = MessageHandler(filters.TEXT, unknown_message)
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.exception(f"Update caused error: {context.error}")

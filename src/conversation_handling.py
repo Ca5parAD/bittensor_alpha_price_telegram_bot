@@ -1,6 +1,6 @@
 from telegram.ext import ConversationHandler, CommandHandler
 
-from simple_commands import start_command, help_command
+from simple_commands import start_command
 from query_alpha_prices import query_netuid_price, enter_alpha_price_commands
 from settings import settings_command, select_setting_commands, enter_subnets_commands, select_notification_frequency_commands
 from utils import *
