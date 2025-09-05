@@ -8,6 +8,7 @@ from messages import SETTINGS_COMMANDS_MESSAGE, SELECT_SUBNETS_MESSAGE, SELECT_N
 from notification_handling import set_notifications
 from simple_commands import top_level_directions
 from bittensor_calls import valid_subnets_check
+from debugging import test_notifications
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,6 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     logger.info("enable/disable")
     context.user_data['send_notifications_flag'] = not context.user_data['send_notifications_flag']
 
-    # Check this
     set_notifications(update, context)
 
     return await settings_command(update, context)
@@ -99,7 +99,8 @@ select_setting_commands = [
     CommandHandler("enable_disable", enable_disable),
     CommandHandler("select_sns", select_subnets),
     CommandHandler("notification_frequency", select_notification_frequency),
-    CommandHandler("back", back_select_command)
+    CommandHandler("back", back_select_command),
+    CommandHandler("test", test_notifications)
 ]
 
 
