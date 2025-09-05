@@ -1,10 +1,10 @@
 import logging
 
 
-def setup_root_logger(log_file="basic_bot.log") -> None:
+def setup_root_logger(log_file="Log_File.log") -> None:
     # Configure root logger
     root_logger = logging.getLogger()
-    root_logger.setLevel(logging.DEBUG)
+    root_logger.setLevel(logging.INFO)
 
     # File handler for all levels
     file_handler = logging.FileHandler(log_file, mode="w")
