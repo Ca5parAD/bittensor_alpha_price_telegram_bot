@@ -4,11 +4,10 @@ from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler, MessageHandler, filters
 
 from messages import START_MESSAGE,TOP_LEVEL_DIRECTIONS_MESSAGE, HELP_MESSAGE, UNKNOWN_COMMAND, UNKNOWN_MESSAGE
-from utils import SELECT_COMMAND, reset_settings
+from utils import *
 
 
 logger = logging.getLogger(__name__)
-
 
 
 # Start command bolts on setup and welcome message to top level directions
@@ -17,7 +16,6 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reset_settings(update, context)
     await update.message.reply_text(START_MESSAGE, parse_mode="HTML")
     return await show_commands(update, context)
-start_command_handler = CommandHandler('start', start_command)
 
 async def show_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("top level directions")
@@ -27,24 +25,29 @@ async def show_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("help command")
     await update.message.reply_text(HELP_MESSAGE, parse_mode="HTML")
+    return HELP
+
+async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    logger.info("Unknown command")
+    await update.message.reply_text(UNKNOWN_COMMAND, parse_mode="HTML")
+
+async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    logger.info("Unknown message")
+    await update.message.reply_text(UNKNOWN_MESSAGE, parse_mode="HTML")
+
+async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.exception(f"Update caused error: {context.error}")
+    # Message to user about error
+    # Way to reset conversation flow to user?
+
+
+start_command_handler = CommandHandler('start', start_command)
 
 universal_handlers = [
     CommandHandler('show_commands', show_commands),
     CommandHandler('help', help_command)
 ]
 
-
-async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("Unknown command")
-    await update.message.reply_text(UNKNOWN_COMMAND, parse_mode="HTML")
 unknown_command_handler = MessageHandler(filters.COMMAND, unknown_command)
 
-async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("Unknown message")
-    await update.message.reply_text(UNKNOWN_MESSAGE, parse_mode="HTML")
 unknown_message_handler = MessageHandler(filters.TEXT, unknown_message)
-
-async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.exception(f"Update caused error: {context.error}")
-    # Message to user about error
-    # Way to reset conversation flow to user?

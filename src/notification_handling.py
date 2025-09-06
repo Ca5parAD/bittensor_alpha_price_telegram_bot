@@ -1,9 +1,8 @@
 import logging
 
 from telegram import Update
-from telegram.ext import Application, ContextTypes
+from telegram.ext import ContextTypes
 
-from utils import app
 from bittensor_calls import get_netuid_info
 
 logger = logging.getLogger(__name__)

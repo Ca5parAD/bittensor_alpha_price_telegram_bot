@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     app.add_handler(conversation_flow)
     app.add_handler(start_command_handler)
-    app.add_handler(universal_handlers) # Catches commands outside of conversation flow
+    app.add_handlers(universal_handlers) # Catches commands outside of conversation flow
     app.add_handler(unknown_command_handler)
     app.add_handler(unknown_message_handler)
     

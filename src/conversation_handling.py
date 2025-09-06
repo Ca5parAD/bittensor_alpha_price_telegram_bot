@@ -23,7 +23,8 @@ conversation_flow = ConversationHandler(
         ENTER_ALPHA_PRICE: enter_alpha_price_commands,
         SELECT_SETTING: select_setting_commands,
         ENTER_SUBNETS: enter_subnets_commands,
-        SELECT_NOTIF_FREQ: select_notification_frequency_commands
+        SELECT_NOTIF_FREQ: select_notification_frequency_commands,
+        HELP: select_command_commands + select_setting_commands
     },
 
     fallbacks=[]
