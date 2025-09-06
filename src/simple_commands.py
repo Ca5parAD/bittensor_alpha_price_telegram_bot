@@ -16,12 +16,13 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("start command")
     reset_settings(update, context)
     await update.message.reply_text(START_MESSAGE, parse_mode="HTML")
-    return await top_level_directions(update, context)
+    return await show_commands(update, context)
 
-async def top_level_directions(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def show_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("top level directions")
     await update.message.reply_text(TOP_LEVEL_DIRECTIONS_MESSAGE, parse_mode="HTML")
     return SELECT_COMMAND
+show_commands_handler = CommandHandler('show_commands', show_commands)
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):

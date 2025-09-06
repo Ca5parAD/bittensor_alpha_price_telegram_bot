@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, 
 from utils import SELECT_SETTING, ENTER_SUBNETS, SELECT_NOTIF_FREQ, SELECT_COMMAND
 from messages import SETTINGS_COMMANDS_MESSAGE, SELECT_SUBNETS_MESSAGE, SELECT_NOTIFICATION_FREQUENCY_MESSAGE, INVALID_NOTIFICATION_FREQUENCY
 from notification_handling import set_notifications
-from simple_commands import top_level_directions
+from simple_commands import show_commands, show_commands_handler
 from bittensor_calls import valid_subnets_check
 from debugging import test_notifications
 
@@ -20,11 +20,10 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     frequency = context.user_data.get('notification_frequency', 'Not set')
     
     await update.message.reply_text(
-        f"<b>Current Settings</b> ⚙️\n\n"
+        f"<b>Current Settings</b> ⚙️\n"
         f"Receive notifications: {notification_status}\n"
         f"Selected subnets: {subnets or 'None'} 📌\n"
-        f"Notification frequency: {frequency} ⏰\n\n"
-        "Choose an option below:",
+        f"Notification frequency: {frequency} ⏰\n\n",
         parse_mode="HTML"
     )
     await update.message.reply_text(SETTINGS_COMMANDS_MESSAGE, parse_mode="HTML")
@@ -52,7 +51,6 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         valid_subnets, invalid_subnets = valid_subnets_check(text)
         context.user_data['notification_subnets'] = valid_subnets
         logger.info(f"Stored subnets: {valid_subnets}")
-        await update.message.reply_text(f"Cool! Subnets stored: {valid_subnets}")
         return await settings_command(update, context)
  
     except ValueError as e:
@@ -84,20 +82,13 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
         return SELECT_NOTIF_FREQ
 
 
-
-
 async def back_select_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("back")
-    return await top_level_directions(update, context)
+    return await show_commands(update, context)
 
 async def back_select_setting(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("back")
     return await settings_command(update, context)
-
-
-
-
-
 
 
 select_setting_commands = [
@@ -105,13 +96,15 @@ select_setting_commands = [
     CommandHandler("select_sns", select_subnets),
     CommandHandler("notification_frequency", select_notification_frequency),
     CommandHandler("back", back_select_command),
-    CommandHandler("test", test_notifications)
+    CommandHandler("test", test_notifications),
+    show_commands_handler
 ]
 
 
 enter_subnets_commands = [
     CommandHandler("back", back_select_setting),
-    MessageHandler(filters.TEXT & ~filters.COMMAND, store_subnets)
+    MessageHandler(filters.TEXT & ~filters.COMMAND, store_subnets),
+    show_commands_handler
 ]
 
 
@@ -121,6 +114,7 @@ select_notification_frequency_commands = [
     CommandHandler("4hrs", store_notification_frequency),
     CommandHandler("12hrs", store_notification_frequency),
     CommandHandler("1D", store_notification_frequency),
-    CommandHandler("back", back_select_setting)
+    CommandHandler("back", back_select_setting),
+    show_commands_handler
 ]
 

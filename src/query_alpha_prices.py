@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, 
 from utils import ENTER_ALPHA_PRICE, SELECT_COMMAND
 from messages import ALPHA_PRICE_MESSAGE, INVALID_PROCESS_NETUID
 from bittensor_calls import valid_subnets_check, get_netuid_info
-from simple_commands import top_level_directions
+from simple_commands import show_commands, show_commands_handler
 
 
 logger = logging.getLogger(__name__)
@@ -34,9 +34,9 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             netuid_name, netuid_price = get_netuid_info(netuid)
         except Exception as e:
             logger.warning(f"Error retrieving netuid {netuid}: {e}")
-            message += f"• ({netuid}) Error retrieving price ⚠️\n"
+            message += f"({netuid}) Error retrieving price ⚠️\n"
         else:
-            message += f"• ({netuid}) {netuid_name}: {netuid_price}\n"
+            message += f"({netuid}) {netuid_name}: {netuid_price}\n"
         
     await update.message.reply_text(message, parse_mode="HTML")
     return await query_netuid_price(update, context)
@@ -45,12 +45,13 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("Back")
-    return await top_level_directions(update, context)
+    return await show_commands(update, context)
 
 
 
 enter_alpha_price_commands = [
     CommandHandler("back", back),
-    MessageHandler(filters.TEXT & ~filters.COMMAND, process_netuid)
+    MessageHandler(filters.TEXT & ~filters.COMMAND, process_netuid),
+    show_commands_handler                   
 ]
 

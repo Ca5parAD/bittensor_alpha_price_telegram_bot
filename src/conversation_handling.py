@@ -1,13 +1,14 @@
 from telegram.ext import ConversationHandler, CommandHandler
 
-from simple_commands import start_command
+from simple_commands import start_command, show_commands_handler
 from query_alpha_prices import query_netuid_price, enter_alpha_price_commands
 from settings import settings_command, select_setting_commands, enter_subnets_commands, select_notification_frequency_commands
 from utils import *
 
 select_command_commands = [
     CommandHandler("alpha_prices", query_netuid_price),
-    CommandHandler("settings", settings_command)
+    CommandHandler("settings", settings_command),
+    show_commands_handler
 ]
 
 
