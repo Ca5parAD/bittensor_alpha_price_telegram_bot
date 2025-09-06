@@ -44,7 +44,7 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
                 logger.warning(f"Error retrieving netuid {netuid}: {e}")
                 message += f"({netuid}) Error retrieving price ⚠️\n"
 
-    message += "\nMain menu: /show_commands ℹ️"
+    message += "\n ℹ️ /show_commands"
 
     await context.bot.send_message(chat_id=context.job.chat_id, text=message, parse_mode="HTML")
 
