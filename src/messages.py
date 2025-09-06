@@ -19,7 +19,8 @@ HELP_MESSAGE: Final = (
     "   - /select_sns: Pick subnets to track 📌\n"
     "   - /notification_frequency: Set update intervals (hourly, daily) ⏰\n\n"
     "• /help: Show this menu anytime ❓\n\n"
-    "• /start: To restart conversation flow 🔄\n\n"
+    "• /back: To go back to the home menu 🏠\n\n"
+    "• /start: To reset settings and restart conversation flow 🔄\n\n"
     "Settings are saved per user. Notifications include quick links to keep your flow smooth! 😊"
 )
 
@@ -67,18 +68,17 @@ INVALID_NOTIFICATION_FREQUENCY: Final = (
     "<b>Invalid Input</b> ❌\n\n"
     "Please choose: /1hr, /4hrs, /12hrs, or /1D.\n\n"
     "Use /back to go back ↩️\n"
-    "Or try /help for guidance ❓"
 )
 
 # Unkowns Messages
 UNKNOWN_COMMAND: Final = (
-    "❌ That's not a valid command\n\n"
-    "Use /back to go back ↩️\n"
-    "Or try /help for guidance ❓"
+    "❌ That's not a valid command\n"
+    "Please try again\n\n"
+    "Or use /back to go back ↩️\n"
 )
 
 UNKNOWN_MESSAGE: Final = (
-    "🤔 Hmm, I'm not sure what you meant - I'm probably expecting a command\n\n"
-    "Use /back to go back ↩️\n"
-    "Or try /help for guidance ❓"
+    "🤔 I'm not sure what you meant - I'm probably expecting a command\n\n"
+    "Please try again\n\n"
+    "Or use /back to go back ↩️\n"
 )
