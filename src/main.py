@@ -1,9 +1,7 @@
 import logging
 
-from telegram.ext import ConversationHandler
-
 from logger_config import setup_root_logger
-from simple_commands import start_command, universal_handlers, unknown_command_handler, unknown_message_handler, error
+from simple_commands import start_command_handler, universal_handlers, unknown_command_handler, unknown_message_handler, error
 from conversation_handling import conversation_flow
 from utils import app
 
@@ -15,7 +13,7 @@ if __name__ == '__main__':
     logger.info("program started")
 
     app.add_handler(conversation_flow)
-    app.add_handler(ConversationHandler('start', start_command))
+    app.add_handler(start_command_handler)
     app.add_handler(universal_handlers) # Catches commands outside of conversation flow
     app.add_handler(unknown_command_handler)
     app.add_handler(unknown_message_handler)

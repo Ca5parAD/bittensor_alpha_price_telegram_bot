@@ -17,6 +17,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reset_settings(update, context)
     await update.message.reply_text(START_MESSAGE, parse_mode="HTML")
     return await show_commands(update, context)
+start_command_handler = CommandHandler('start', start_command)
 
 async def show_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("top level directions")
