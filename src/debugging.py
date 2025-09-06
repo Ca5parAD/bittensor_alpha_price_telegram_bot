@@ -17,5 +17,4 @@ async def test_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE)
 async def test_user_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info("testing user data")
     print(context.user_data)
-    print(context.user_data[ConversationHandler])
     await update.message.reply_text("done")
