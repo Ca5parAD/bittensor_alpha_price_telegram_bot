@@ -1,70 +1,85 @@
 from typing import Final
 
+# Simple Commands Messages
 START_MESSAGE: Final = (
-    "Welcome to the Bittensor Subnet Bot!"
+    "<b>Welcome to the Bittensor Subnet Bot!</b> 👋"
 )
 
 TOP_LEVEL_DIRECTIONS_MESSAGE: Final = (
-    "Get alpha prices with /alpha_prices\n\n"
-    "Manage notifications with /settings\n\n"
-    "Or use /help for more details"
+    "📈 Check alpha prices: /alpha_prices\n\n"
+    "⚙️ Manage notifications: /settings\n\n"
+    "❓ Need guidance: /help"
 )
 
-HELP_MESSAGE: Final  = (
-    "Bittensor Subnet Bot Help:\n\n"
-    "- /start: Displays initial welcome message\n\n"
-    "- /alpha_prices: Query the alpha price of a Bittensor subnet (0-128)\n\n"
-    "- /settings: Manage notification settings:\n"
-    "   - /enable_disable: Turn notifications on or off\n"
-    "   - /select_sns: Specify subnet IDs to track\n"
-    "   - /notification_frequency: Set how often to receive updates\n"
-    "   - /back: Go back\n\n"
-    "- /help: Displays this help message\n\n"
-    "Use commands to navigate. All settings are saved per user"
+HELP_MESSAGE: Final = (
+    "<b>Bittensor Subnet Bot Help Menu</b> 🆘\n\n"
+    "• /alpha_prices: Check alpha prices for subnets (0-128) 📈\n\n"
+    "• /settings: Customize notifications ⚙️\n"
+    "   - /enable_disable: Toggle alerts on/off 🔔/🔕\n"
+    "   - /select_sns: Pick subnets to track 📌\n"
+    "   - /notification_frequency: Set update intervals (hourly, daily) ⏰\n\n"
+    "• /help: Show this menu anytime ❓\n\n"
+    "Settings are saved per user. Notifications include quick links to keep your flow smooth! 😊"
 )
 
+# Query Alpha Prices Messages
 ALPHA_PRICE_MESSAGE: Final = (
-    "What subnet price(s) would you like to know?:\n"
-    "- For a single SN enter its netuid\n"
-    "- For multiple netuids use a comma to seperate\n"
-    "- /my_sns to check your chosen SNs\n"
-    "- /back to go back"
+    "<b>Check Subnet Alpha Prices</b> 📈\n\n"
+    "Enter the netuid(s) you want:\n"
+    "• Single: e.g. '19' 🔢\n"
+    "• Multiple: e.g. '19,56,64' 📋\n\n"
+    "Or use:\n"
+    "• /my_sns: See your tracked subnets 📌\n"
+    "• /back: Return to main menu ↩️"
 )
 
+INVALID_PROCESS_NETUID: Final = (
+    "<b>Invalid Input</b> ❌\n\n"
+    "Please enter numbers 0-128 separated by commas - e.g. '19, 56, 64'\n\n"
+    "Use /back to go back ↩️\n"
+)
+
+# Settings Messages
 SETTINGS_COMMANDS_MESSAGE: Final = (
-    "What would you like to change?:\n"
-    "- /enable_disable to toggle notifications\n"
-    "- /select_sns to choose subnets\n"
-    "- /notification_frequency to set frequency\n"
-    "- /back"
+    "What do you want to change? 🎛\n"
+    "• /enable_disable: Turn alerts on/off 🔔/🔕\n"
+    "• /select_sns: Choose subnets to track 📌\n"
+    "• /notification_frequency: Set update frequency ⏰\n"
+    "• /back: Back to main menu ↩️"
 )
 
 SELECT_SUBNETS_MESSAGE: Final = (
-    "What subnets would you like to track?:\n"
-    "Enter the netuids seperated by ', '\n"
-    "e.g. '19, 56, 64'"
+    "<b>Select Subnets to Track</b> 📌\n\n"
+    "Enter netuids separated by commas - e.g. '19,56,64' 🔢.\n\n"
+    "/back: Back to settings ↩️"
 )
 
 SELECT_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
-    "How often would you like to recieve alerts?:\n"
-    "/1hr\n"
-    "/4hrs\n"
-    "/12hrs\n"
-    "/1D\n\n"
-    "/back to go back"
+    "<b>Set Notification Frequency</b> ⏰\n\n"
+    "Choose how often you want updates:\n"
+    "• /1hr: Every hour 🕐\n"
+    "• /4hrs: Every 4 hours 🕓\n"
+    "• /12hrs: Every 12 hours 🕕\n"
+    "• /1D: Daily 📅\n\n"
+    "/back: Back to settings ↩️"
 )
 
-UNKOWN_MESSAGE_MESSAGE: Final = ("Sorry, I don't know what you mean - I am likely expecting a command")
+INVALID_NOTIFICATION_FREQUENCY: Final = (
+    "<b>Invalid Input</b> ❌\n\n"
+    "Please choose: /1hr, /4hrs, /12hrs, or /1D.\n\n"
+    "Use /back to go back ↩️\n"
+    "Or try /help for guidance ❓"
+)
 
-UNKOWN_COMMAND_MESSAGE: Final = ("That's not a valid command")
+# Unkowns Messages
+UNKNOWN_COMMAND: Final = (
+    "❌ That's not a valid command\n\n"
+    "Use /back to go back ↩️\n"
+    "Or try /help for guidance ❓"
+)
 
-
-
-
-'''
-
-need to work out how notifications handle interrupting conversation flow
-notifications give command for easy navigation
-
-
-'''
+UNKNOWN_MESSAGE: Final = (
+    "🤔 Hmm, I'm not sure what you meant - I'm probably expecting a command\n\n"
+    "Use /back to go back ↩️\n"
+    "Or try /help for guidance ❓"
+)

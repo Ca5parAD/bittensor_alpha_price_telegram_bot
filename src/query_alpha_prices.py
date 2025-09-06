@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, ConversationHandler
 
 from utils import ENTER_ALPHA_PRICE, SELECT_COMMAND
-from messages import ALPHA_PRICE_MESSAGE
+from messages import ALPHA_PRICE_MESSAGE, INVALID_PROCESS_NETUID
 from bittensor_calls import valid_subnets_check, get_netuid_info
 from simple_commands import top_level_directions
 
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 async def query_netuid_price(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("query netuid price")
-    await update.message.reply_text(ALPHA_PRICE_MESSAGE)
+    await update.message.reply_text(ALPHA_PRICE_MESSAGE, parse_mode="HTML")
     return ENTER_ALPHA_PRICE
 
 
@@ -24,24 +24,21 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     valid_netuids, invalid_netuids = valid_subnets_check(update.message.text.strip())
 
     if not valid_netuids:
-        await update.message.reply_text(
-            "Thats not a valid response\n"
-            "Please enter numbers 0-128 seperated ','"
-        )
+        await update.message.reply_text(INVALID_PROCESS_NETUID, parse_mode="HTML")
         return ENTER_ALPHA_PRICE
 
-    message = ""
+    message = "<b>Subnet Prices</b> 📈\n\n"
 
     for i, netuid in enumerate(valid_netuids):
         try:
             netuid_name, netuid_price = get_netuid_info(netuid)
         except Exception as e:
-            logger.error(f"Error r: {e}")
-            message += f"({i+1}) An error occoured retrieving price, please try again later\n"
+            logger.warning(f"Error retrieving netuid {netuid}: {e}")
+            message += f"• ({netuid}) Error retrieving price ⚠️\n"
         else:
-            message += f"({i+1}) {netuid_name} -> {netuid_price}\n"
+            message += f"• ({netuid}) {netuid_name}: {netuid_price}\n"
         
-    await update.message.reply_text(message)
+    await update.message.reply_text(message, parse_mode="HTML")
     return await query_netuid_price(update, context)
 
 

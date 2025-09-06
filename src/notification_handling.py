@@ -24,20 +24,29 @@ def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
             first=3, # Little delay until first message
             data=context.user_data
         )
-        context.user_data['notification_job'] = notification_job # Store job in user data
-
-        
+        context.user_data['notification_job'] = notification_job # Store job in user data  
 
 
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     logger.info("sending notification")
     logger.debug(f"notification settings: {context.job.data}")
-    message = f"Your subnets:\n"
+    message = "<b>Subnet Price Update</b> 📈\n\n"
 
-    for i, netuid in enumerate(context.job.data['notification_subnets']):
-        netuid_name, netuid_price = get_netuid_info(netuid)
-        message += f"({i+1}) {netuid_name} -> {netuid_price}\n"
+    subnets = context.job.data.get('notification_subnets', [])
+    if not subnets:
+        message += "No subnets selected 📌.\n"
+    else:
+        for i, netuid in enumerate(subnets):
+            try:
+                netuid_name, netuid_price = get_netuid_info(netuid)
+                message += f"• ({netuid}) {netuid_name}: {netuid_price}\n"
+            except Exception as e:
+                logger.warning(f"Error retrieving netuid {netuid}: {e}")
+                message += f"• ({netuid}) Error retrieving price ⚠️\n"
 
+    message += "\nAdjust settings: /settings ⚙️\n"
+    message += "Return: /back ↩️\n"
+    message += "Need help: /help ❓"
 
-    await context.bot.send_message(chat_id=context.job.chat_id, text=message)
+    await context.bot.send_message(chat_id=context.job.chat_id, text=message, parse_mode="HTML")
 

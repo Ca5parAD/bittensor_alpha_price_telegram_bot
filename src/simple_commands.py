@@ -3,7 +3,7 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler, MessageHandler, filters
 
-from messages import START_MESSAGE,TOP_LEVEL_DIRECTIONS_MESSAGE, HELP_MESSAGE, UNKOWN_COMMAND_MESSAGE, UNKOWN_MESSAGE_MESSAGE
+from messages import START_MESSAGE,TOP_LEVEL_DIRECTIONS_MESSAGE, HELP_MESSAGE, UNKNOWN_COMMAND, UNKNOWN_MESSAGE
 from utils import SELECT_COMMAND, reset_settings
 
 
@@ -15,28 +15,28 @@ logger = logging.getLogger(__name__)
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("start command")
     reset_settings(update, context)
-    await update.message.reply_text(START_MESSAGE)
+    await update.message.reply_text(START_MESSAGE, parse_mode="HTML")
     return await top_level_directions(update, context)
 
 async def top_level_directions(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("top level directions")
-    await update.message.reply_text(TOP_LEVEL_DIRECTIONS_MESSAGE)
+    await update.message.reply_text(TOP_LEVEL_DIRECTIONS_MESSAGE, parse_mode="HTML")
     return SELECT_COMMAND
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("help command")
-    await update.message.reply_text(HELP_MESSAGE)
+    await update.message.reply_text(HELP_MESSAGE, parse_mode="HTML")
 help_handler = CommandHandler('help', help_command)
 
 async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("Unknown command")
-    await update.message.reply_text(UNKOWN_COMMAND_MESSAGE)
+    await update.message.reply_text(UNKNOWN_COMMAND, parse_mode="HTML")
 unknown_command_handler = MessageHandler(filters.COMMAND, unknown_command)
 
 async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("Unknown message")
-    await update.message.reply_text(UNKOWN_MESSAGE_MESSAGE)
+    await update.message.reply_text(UNKNOWN_MESSAGE, parse_mode="HTML")
 unknown_message_handler = MessageHandler(filters.TEXT, unknown_message)
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
