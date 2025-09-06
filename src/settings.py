@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, 
 from utils import SELECT_SETTING, ENTER_SUBNETS, SELECT_NOTIF_FREQ, SELECT_COMMAND
 from messages import SETTINGS_COMMANDS_MESSAGE, SELECT_SUBNETS_MESSAGE, SELECT_NOTIFICATION_FREQUENCY_MESSAGE, INVALID_NOTIFICATION_FREQUENCY
 from notification_handling import set_notifications
-from simple_commands import show_commands, show_commands_handler
+from simple_commands import show_commands, universal_handlers
 from bittensor_calls import valid_subnets_check
 from debugging import test_notifications, test_user_data
 
@@ -98,14 +98,14 @@ select_setting_commands = [
     CommandHandler("back", back_select_command),
     CommandHandler("test", test_notifications),
     CommandHandler("user_data", test_user_data),
-    show_commands_handler
+    *universal_handlers # Unpack handlers
 ]
 
 
 enter_subnets_commands = [
     CommandHandler("back", back_select_setting),
     MessageHandler(filters.TEXT & ~filters.COMMAND, store_subnets),
-    show_commands_handler
+    *universal_handlers # Unpack handlers
 ]
 
 
@@ -116,6 +116,6 @@ select_notification_frequency_commands = [
     CommandHandler("12hrs", store_notification_frequency),
     CommandHandler("1D", store_notification_frequency),
     CommandHandler("back", back_select_setting),
-    show_commands_handler
+    *universal_handlers # Unpack handlers
 ]
 
