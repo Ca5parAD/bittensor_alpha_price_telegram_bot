@@ -27,7 +27,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         await update.message.reply_text(INVALID_PROCESS_NETUID, parse_mode="HTML")
         return ENTER_ALPHA_PRICE
 
-    message = "<b>Subnet Prices</b> 📈\n\n"
+    message = "<b>Subnet Prices</b> 📈\n"
 
     for i, netuid in enumerate(valid_netuids):
         try:
@@ -39,7 +39,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             message += f"({netuid}) {netuid_name}: {netuid_price}\n"
         
     await update.message.reply_text(message, parse_mode="HTML")
-    return await query_netuid_price(update, context)
+    return await show_commands(update, context)
 
 
 

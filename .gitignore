@@ -7,6 +7,9 @@ __pycache__/
 # Ignores all log files
 *.log
 
+# Ignores all text files
+*.txt
+
 # Ignores config file
 config.py
 
