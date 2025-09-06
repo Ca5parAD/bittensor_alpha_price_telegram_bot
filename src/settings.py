@@ -8,7 +8,7 @@ from messages import SETTINGS_COMMANDS_MESSAGE, SELECT_SUBNETS_MESSAGE, SELECT_N
 from notification_handling import set_notifications
 from simple_commands import show_commands, show_commands_handler
 from bittensor_calls import valid_subnets_check
-from debugging import test_notifications
+from debugging import test_notifications, test_user_data
 
 logger = logging.getLogger(__name__)
 
@@ -97,6 +97,7 @@ select_setting_commands = [
     CommandHandler("notification_frequency", select_notification_frequency),
     CommandHandler("back", back_select_command),
     CommandHandler("test", test_notifications),
+    CommandHandler("user_data", test_user_data),
     show_commands_handler
 ]
 
