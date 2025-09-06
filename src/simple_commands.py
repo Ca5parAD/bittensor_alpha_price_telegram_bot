@@ -3,7 +3,7 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler, MessageHandler, filters
 
-from messages import START_MESSAGE,TOP_LEVEL_DIRECTIONS_MESSAGE, HELP_MESSAGE, UNKNOWN_COMMAND, UNKNOWN_MESSAGE
+from messages import *
 from utils import *
 
 
@@ -44,9 +44,8 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 universal_handlers = [
     CommandHandler('start', start_command),
     CommandHandler('show_commands', show_commands),
-    CommandHandler('help', help_command)
+    CommandHandler('help', help_command),
+    MessageHandler(filters.COMMAND, unknown_command),
+    MessageHandler(filters.TEXT, unknown_message)
 ]
 
-unknown_command_handler = MessageHandler(filters.COMMAND, unknown_command)
-
-unknown_message_handler = MessageHandler(filters.TEXT, unknown_message)

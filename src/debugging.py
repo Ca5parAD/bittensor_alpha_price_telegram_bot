@@ -1,7 +1,7 @@
 import logging
 
 from telegram import Update
-from telegram.ext import CommandHandler, ConversationHandler, ContextTypes
+from telegram.ext import ContextTypes
 
 from notification_handling import set_notifications
 

@@ -3,12 +3,12 @@ import logging
 from telegram import Update
 from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, ConversationHandler
 
-from utils import SELECT_SETTING, ENTER_SUBNETS, SELECT_NOTIF_FREQ, SELECT_COMMAND
-from messages import SETTINGS_COMMANDS_MESSAGE, SELECT_SUBNETS_MESSAGE, SELECT_NOTIFICATION_FREQUENCY_MESSAGE, INVALID_NOTIFICATION_FREQUENCY
+from utils import *
+from messages import *
 from notification_handling import set_notifications
-from simple_commands import show_commands, universal_handlers
+from simple_commands import show_commands
 from bittensor_calls import valid_subnets_check
-from debugging import test_notifications, test_user_data
+from debugging import *
 
 logger = logging.getLogger(__name__)
 
