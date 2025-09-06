@@ -19,6 +19,7 @@ HELP_MESSAGE: Final = (
     "   - /select_sns: Pick subnets to track 📌\n"
     "   - /notification_frequency: Set update intervals (hourly, daily) ⏰\n\n"
     "• /help: Show this menu anytime ❓\n\n"
+    "• /start: To restart conversation flow 🔄\n\n"
     "Settings are saved per user. Notifications include quick links to keep your flow smooth! 😊"
 )
 
@@ -28,8 +29,7 @@ ALPHA_PRICE_MESSAGE: Final = (
     "Enter the netuid(s) you want:\n"
     "• Single: e.g. '19' 🔢\n"
     "• Multiple: e.g. '19,56,64' 📋\n\n"
-    "Or use:\n"
-    "• /my_sns: See your tracked subnets 📌\n"
+    "• /my_sns: See your tracked subnets 📌\n\n"
     "• /back: Return to main menu ↩️"
 )
 
@@ -41,10 +41,9 @@ INVALID_PROCESS_NETUID: Final = (
 
 # Settings Messages
 SETTINGS_COMMANDS_MESSAGE: Final = (
-    "What do you want to change? 🎛\n"
-    "• /enable_disable: Turn alerts on/off 🔔/🔕\n"
+    "• /enable_disable: Toggle alerts on/off 🔔/🔕\n"
     "• /select_sns: Choose subnets to track 📌\n"
-    "• /notification_frequency: Set update frequency ⏰\n"
+    "• /notification_frequency: Set notification frequency ⏰\n"
     "• /back: Back to main menu ↩️"
 )
 

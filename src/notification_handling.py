@@ -21,7 +21,7 @@ def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
             send_notification,
             chat_id=update.effective_message.chat_id,
             interval=interval_s,
-            first=3, # Little delay until first message
+            first=interval_s,
             data=context.user_data
         )
         context.user_data['notification_job'] = notification_job # Store job in user data  
