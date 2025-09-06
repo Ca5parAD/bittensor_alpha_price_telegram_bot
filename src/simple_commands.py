@@ -41,9 +41,8 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Way to reset conversation flow to user?
 
 
-start_command_handler = CommandHandler('start', start_command)
-
 universal_handlers = [
+    CommandHandler('start', start_command),
     CommandHandler('show_commands', show_commands),
     CommandHandler('help', help_command)
 ]

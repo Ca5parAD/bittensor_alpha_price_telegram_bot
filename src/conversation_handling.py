@@ -7,16 +7,13 @@ from utils import *
 
 select_command_commands = [
     CommandHandler("alpha_prices", query_netuid_price),
-    CommandHandler("settings", settings_command),
-    *universal_handlers # Unpack handlers
+    CommandHandler("settings", settings_command)
 ]
 
 
 conversation_flow = ConversationHandler(
 
-    entry_points=[
-        CommandHandler("start", start_command)
-    ],
+    entry_points=[CommandHandler("start", start_command)],
 
     states={
         SELECT_COMMAND: select_command_commands,
@@ -27,5 +24,5 @@ conversation_flow = ConversationHandler(
         HELP: select_command_commands + select_setting_commands
     },
 
-    fallbacks=[]
+    fallbacks=[universal_handlers]
 )

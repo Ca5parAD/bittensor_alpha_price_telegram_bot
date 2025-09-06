@@ -97,15 +97,13 @@ select_setting_commands = [
     CommandHandler("notification_frequency", select_notification_frequency),
     CommandHandler("back", back_select_command),
     CommandHandler("test", test_notifications),
-    CommandHandler("user_data", test_user_data),
-    *universal_handlers # Unpack handlers
+    CommandHandler("user_data", test_user_data)
 ]
 
 
 enter_subnets_commands = [
     CommandHandler("back", back_select_setting),
-    MessageHandler(filters.TEXT & ~filters.COMMAND, store_subnets),
-    *universal_handlers # Unpack handlers
+    MessageHandler(filters.TEXT & ~filters.COMMAND, store_subnets)
 ]
 
 
@@ -115,7 +113,6 @@ select_notification_frequency_commands = [
     CommandHandler("4hrs", store_notification_frequency),
     CommandHandler("12hrs", store_notification_frequency),
     CommandHandler("1D", store_notification_frequency),
-    CommandHandler("back", back_select_setting),
-    *universal_handlers # Unpack handlers
+    CommandHandler("back", back_select_setting)
 ]
 

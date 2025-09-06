@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, 
 from utils import ENTER_ALPHA_PRICE, SELECT_COMMAND
 from messages import ALPHA_PRICE_MESSAGE, INVALID_PROCESS_NETUID
 from bittensor_calls import valid_subnets_check, get_netuid_info
-from simple_commands import show_commands, universal_handlers
+from simple_commands import show_commands
 
 
 logger = logging.getLogger(__name__)
@@ -70,7 +70,6 @@ async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 enter_alpha_price_commands = [
     CommandHandler('my_sns', my_sns),
     CommandHandler('back', back),
-    MessageHandler(filters.TEXT & ~filters.COMMAND, process_netuid),
-    *universal_handlers # Unpack handlers
+    MessageHandler(filters.TEXT & ~filters.COMMAND, process_netuid)
 ]
 
