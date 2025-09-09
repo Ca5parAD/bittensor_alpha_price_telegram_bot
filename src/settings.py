@@ -17,8 +17,10 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     logger.info("settings command")
     notification_status = "🔔 On" if context.user_data.get('send_notifications_flag', False) else "🔕 Off"
     subnets = context.user_data.get('notification_subnets', [])
-    frequency = context.user_data.get('notification_frequency', 'Not set') # Make this handle hours and minutes
-    
+    frequency = context.user_data.get('notification_frequency', 'Not set')
+    if not frequency % 1:
+        frequency = int(frequency)    
+        
     await update.message.reply_text(
         f"<b>Current Settings</b> ⚙️\n"
         f"Receive notifications: {notification_status}\n"
