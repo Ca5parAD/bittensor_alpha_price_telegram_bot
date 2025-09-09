@@ -90,3 +90,8 @@ UNKNOWN_MESSAGE: Final = (
     "Please try again\n\n"
     "Or use /back to go back ↩️\n"
 )
+
+OUTSIDE_CONVERSATION_MESSAGE: Final = (
+    "❌ Sorry, you are not in a conversation\n"
+    "Use /start to start"
+)
