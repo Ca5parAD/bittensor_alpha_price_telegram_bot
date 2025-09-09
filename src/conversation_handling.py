@@ -21,6 +21,7 @@ conversation_flow = ConversationHandler(
         SELECT_SETTING: select_setting_commands,
         ENTER_SUBNETS: enter_subnets_commands,
         SELECT_NOTIF_FREQ: select_notification_frequency_commands,
+        CUSTOM_NOTIF_FREQ: custom_notification_frequency_commands,
         HELP: select_command_commands + select_setting_commands
     },
 

@@ -17,7 +17,7 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     logger.info("settings command")
     notification_status = "🔔 On" if context.user_data.get('send_notifications_flag', False) else "🔕 Off"
     subnets = context.user_data.get('notification_subnets', [])
-    frequency = context.user_data.get('notification_frequency', 'Not set')
+    frequency = context.user_data.get('notification_frequency', 'Not set') # Make this handle hours and minutes
     
     await update.message.reply_text(
         f"<b>Current Settings</b> ⚙️\n"
@@ -82,6 +82,32 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
         return SELECT_NOTIF_FREQ
 
 
+async def custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    logger.info("custom notification frequency")
+    await update.message.reply_text(CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
+    return CUSTOM_NOTIF_FREQ
+
+
+async def store_custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    logger.info("store custom notification nrequency")
+    text = update.message.text.strip()
+
+    try:
+        interval = float(text)
+ 
+    except ValueError as e:
+        logger.error(f"Invalid input: {text} - {str(e)}")
+        await update.message.reply_text("Invalid input. Please try again")
+        return ENTER_SUBNETS  # Stay in this state for retry
+    
+    else:
+        context.user_data['notification_frequency'] = interval
+        logger.info(f"Set notification frequency to {interval}")
+        await update.message.reply_text(f"You will recieve a notification every {interval}hrs")
+        set_notifications(update, context)
+        return await settings_command(update, context)
+    
+
 async def back_select_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("back")
     return await show_commands(update, context)
@@ -89,6 +115,10 @@ async def back_select_command(update: Update, context: ContextTypes.DEFAULT_TYPE
 async def back_select_setting(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("back")
     return await settings_command(update, context)
+
+async def back_select_notif_freq(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    logger.info("back")
+    return await select_notification_frequency(update, context)
 
 
 select_setting_commands = [
@@ -113,6 +143,12 @@ select_notification_frequency_commands = [
     CommandHandler("4hrs", store_notification_frequency),
     CommandHandler("12hrs", store_notification_frequency),
     CommandHandler("1D", store_notification_frequency),
+    CommandHandler("custom", custom_notification_frequency),
     CommandHandler("back", back_select_setting)
+]
+
+custom_notification_frequency_commands = [
+    CommandHandler("back", back_select_setting),
+    MessageHandler(filters.TEXT & ~filters.COMMAND, store_custom_notification_frequency)
 ]
 
