@@ -60,14 +60,22 @@ SELECT_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
     "• /1hr: Every hour 🕐\n"
     "• /4hrs: Every 4 hours 🕓\n"
     "• /12hrs: Every 12 hours 🕕\n"
-    "• /1D: Daily 📅\n\n"
+    "• /1D: Daily 📅\n"
+    "• /custom: For a custom interval\n\n"
     "/back: Back to settings ↩️"
 )
 
 INVALID_NOTIFICATION_FREQUENCY: Final = (
     "<b>Invalid Input</b> ❌\n\n"
-    "Please choose: /1hr, /4hrs, /12hrs, or /1D.\n\n"
+    "Please choose: /1hr, /4hrs, /12hrs, /1D, /custom.\n\n"
     "Use /back to go back ↩️\n"
+)
+
+# ****************************
+CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
+    "<b>Custom Notification Frequency</b> ⏰\n\n"
+    "Enter your notification interval in hours\n\n"
+    "/back: Back to notification frequency ↩️"
 )
 
 # Unkowns Messages
@@ -81,4 +89,9 @@ UNKNOWN_MESSAGE: Final = (
     "🤔 I'm not sure what you meant - I'm probably expecting a command\n\n"
     "Please try again\n\n"
     "Or use /back to go back ↩️\n"
+)
+
+OUTSIDE_CONVERSATION_MESSAGE: Final = (
+    "❌ Sorry, you are not in a conversation\n"
+    "Use /start to start"
 )

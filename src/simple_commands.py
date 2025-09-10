@@ -1,7 +1,7 @@
 import logging
 
 from telegram import Update
-from telegram.ext import ContextTypes, CommandHandler, MessageHandler, filters
+from telegram.ext import ContextTypes, MessageHandler, filters
 
 from messages import *
 from utils import *
@@ -27,13 +27,17 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(HELP_MESSAGE, parse_mode="HTML")
     return HELP
 
-async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info("Unknown command")
     await update.message.reply_text(UNKNOWN_COMMAND, parse_mode="HTML")
 
-async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info("Unknown message")
     await update.message.reply_text(UNKNOWN_MESSAGE, parse_mode="HTML")
+
+async def outside_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.info("outside conversation")
+    await update.message.reply_text(OUTSIDE_CONVERSATION_MESSAGE, parse_mode="HTML")
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.exception(f"Update caused error: {context.error}")
@@ -41,11 +45,5 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Way to reset conversation flow to user?
 
 
-universal_handlers = [
-    CommandHandler('start', start_command),
-    CommandHandler('show_commands', show_commands),
-    CommandHandler('help', help_command),
-    MessageHandler(filters.COMMAND, unknown_command),
-    MessageHandler(filters.TEXT, unknown_message)
-]
+outside_conversation_handler = MessageHandler(filters.TEXT, unknown_message)
 
