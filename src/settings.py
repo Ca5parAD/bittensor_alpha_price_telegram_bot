@@ -14,13 +14,13 @@ logger = logging.getLogger(__name__)
 
 
 async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("settings command")
+    logger.info("user_id:{update.chat.id} - settings command")
     notification_status = "🔔 On" if context.user_data.get('send_notifications_flag', False) else "🔕 Off"
     subnets = context.user_data.get('notification_subnets', [])
     frequency = context.user_data.get('notification_frequency', 'Not set')
     if not frequency % 1:
         frequency = int(frequency)    
-        
+    
     await update.message.reply_text(
         f"<b>Current Settings</b> ⚙️\n"
         f"Receive notifications: {notification_status}\n"
@@ -32,7 +32,7 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     return SELECT_SETTING
 
 async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("enable/disable")
+    logger.info("user_id:{update.chat.id} - enable/disable")
     context.user_data['send_notifications_flag'] = not context.user_data['send_notifications_flag']
 
     set_notifications(update, context)
@@ -41,85 +41,83 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 
 async def select_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("select subnets")
+    logger.info("user_id:{update.chat.id} - select subnets")
     await update.message.reply_text(SELECT_SUBNETS_MESSAGE, parse_mode="HTML")
     return ENTER_SUBNETS
 
 async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("store subnets")
+    logger.info("user_id:{update.chat.id} - store subnets")
     text = update.message.text.strip()
 
     try:
         valid_subnets, invalid_subnets = valid_subnets_check(text)
         context.user_data['notification_subnets'] = valid_subnets
-        logger.info(f"Stored subnets: {valid_subnets}")
+        logger.debug(f"user_id:{update.chat.id} - stored subnets: {valid_subnets}")
         return await settings_command(update, context)
  
     except ValueError as e:
-        logger.error(f"Invalid input: {text} - {str(e)}")
+        logger.warning(f"user_id:{update.chat.id} - invalid input: {text} - {str(e)}")
         await update.message.reply_text("Invalid input. Please enter subnet IDs (0-128) separated by commas (e.g. 5,7,19,64)")
         return ENTER_SUBNETS  # Stay in this state for retry
 
 
 async def select_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("select notification frequency")
+    logger.info("user_id:{update.chat.id} - select notification frequency")
     await update.message.reply_text(SELECT_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return SELECT_NOTIF_FREQ
 
 
 async def store_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("Store Notification Frequency")
+    logger.info("user_id:{update.chat.id} - store Notification Frequency")
     text = update.message.text
     freq_map = {'/1hr': 1, '/4hrs': 4, '/12hrs': 12, '/1D': 24}
     
     if text in freq_map:
         context.user_data['notification_frequency'] = freq_map[text]
-        logger.info(f"Set notification frequency to {freq_map[text]}")
-        await update.message.reply_text(f"You will recieve a notification every {freq_map[text]}hrs")
-        set_notifications(update, context)
+        await set_notifications(update, context)   
         return await settings_command(update, context)
     else:
-        logger.error(f"Invalid frequency: {text}")
+        logger.error(f"user_id:{update.chat.id} - invalid frequency: {text}")
         await update.message.reply_text(INVALID_NOTIFICATION_FREQUENCY, parse_mode="HTML")
         return SELECT_NOTIF_FREQ
 
 
 async def custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("custom notification frequency")
+    logger.info("user_id:{update.chat.id} - custom notification frequency")
     await update.message.reply_text(CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return CUSTOM_NOTIF_FREQ
 
 
 async def store_custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("store custom notification nrequency")
+    logger.info("user_id:{update.chat.id} - store custom notification frequency")
     text = update.message.text.strip()
 
     try:
         interval = float(text)
  
     except ValueError as e:
-        logger.error(f"Invalid input: {text} - {str(e)}")
+        logger.error(f"user_id:{update.chat.id} - invalid input: {text} - {str(e)}")
         await update.message.reply_text("Invalid input. Please try again")
         return ENTER_SUBNETS  # Stay in this state for retry
     
     else:
         context.user_data['notification_frequency'] = interval
-        logger.info(f"Set notification frequency to {interval}")
+        logger.info(f"user_id:{update.chat.id} - set notification frequency to {interval}")
         await update.message.reply_text(f"You will recieve a notification every {interval}hrs")
         set_notifications(update, context)
         return await settings_command(update, context)
     
 
 async def back_select_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("back")
+    logger.info("user_id:{update.chat.id} - back")
     return await show_commands(update, context)
 
 async def back_select_setting(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("back")
+    logger.info("user_id:{update.chat.id} - back")
     return await settings_command(update, context)
 
 async def back_select_notif_freq(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("back")
+    logger.info("user_id:{update.chat.id} - back")
     return await select_notification_frequency(update, context)
 
 

@@ -1,15 +1,24 @@
 import logging
+from logging.handlers import RotatingFileHandler
+
+from config import LOG_FILE_PATH
 
 
-def setup_root_logger(log_file="Log_File.log") -> None:
+def setup_root_logger() -> None:
     # Configure root logger
     root_logger = logging.getLogger()
-    root_logger.setLevel(logging.INFO)
+    root_logger.setLevel(logging.DEBUG)
 
-    # File handler for all levels
-    file_handler = logging.FileHandler(log_file, mode="w")
-    file_handler.setLevel(logging.INFO)
-    file_handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+    # Main log file with rotation (DEBUG and above)
+    file_handler = RotatingFileHandler(
+        LOG_FILE_PATH,
+        maxBytes=5*1024*1024, # 5MB
+        backupCount=3  # 3 backups
+    )
+    file_handler.setLevel(logging.DEBUG)  # Capture DEBUG for inputs
+    file_handler.setFormatter(logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    ))
     root_logger.addHandler(file_handler)
 
     # Stream handler for all levels

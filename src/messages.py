@@ -5,7 +5,7 @@ START_MESSAGE: Final = (
     "<b>Welcome to the Bittensor Subnet Bot!</b> 👋"
 )
 
-TOP_LEVEL_DIRECTIONS_MESSAGE: Final = (
+SHOW_COMMANDS_MESSAGE: Final = (
     "📈 Check alpha prices: /alpha_prices\n\n"
     "⚙️ Manage notifications: /settings\n\n"
     "❓ Need guidance: /help"

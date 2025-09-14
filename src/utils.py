@@ -7,6 +7,7 @@ from config import TOKEN
 
 logger = logging.getLogger(__name__)
 
+# States
 SELECT_COMMAND, ENTER_ALPHA_PRICE, SELECT_SETTING, ENTER_SUBNETS, SELECT_NOTIF_FREQ, CUSTOM_NOTIF_FREQ, HELP = range(7)
 
 
@@ -22,9 +23,4 @@ def reset_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     context.user_data['notification_subnets'] = []
     context.user_data['notification_frequency'] = 24
 
-def log_user_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    logger.debug(
-        f"send notifications: {context.user_data['send_notifications_flag']},"
-        f"subnets: {context.user_data['notification_subnets']},"
-        f"notif freq: {context.user_data['notification_frequency']}"
-    )
+    logger.info(f"user_id:{update.chat.id} - settings set to default")

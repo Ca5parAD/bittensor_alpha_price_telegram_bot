@@ -13,14 +13,14 @@ logger = logging.getLogger(__name__)
 
 
 async def query_netuid_price(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("query netuid price")
+    logger.info("user_id:{update.chat.id} - query netuid price (alpha price command)")
     await update.message.reply_text(ALPHA_PRICE_MESSAGE, parse_mode="HTML")
     return ENTER_ALPHA_PRICE
 
 
 async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("process netuid")
-    logger.debug(f"user input: {update.message.text}")
+    logger.info("user_id:{update.chat.id} - process netuid")
+    logger.debug(f"user_id:{update.chat.id} - user input: {update.message.text}")
     valid_netuids, invalid_netuids = valid_subnets_check(update.message.text.strip())
 
     if not valid_netuids:
@@ -33,7 +33,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         try:
             netuid_name, netuid_price = get_netuid_info(netuid)
         except Exception as e:
-            logger.warning(f"Error retrieving netuid {netuid}: {e}")
+            logger.warning(f"user_id:{update.chat.id} - Error retrieving netuid {netuid}: {e}")
             message += f"({netuid}) Error retrieving price ⚠️\n"
         else:
             message += f"({netuid}) {netuid_name}: {netuid_price}\n"
@@ -43,7 +43,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 
 async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info("my sns")
+    logger.info("user_id:{update.chat.id} - query 'my sns'")
     message = "<b>Subnet Prices</b> 📈\n"
 
     subnets = context.user_data.get('notification_subnets', [])
@@ -55,7 +55,7 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
                 netuid_name, netuid_price = get_netuid_info(netuid)
                 message += f"({netuid}) {netuid_name}: {netuid_price}\n"
             except Exception as e:
-                logger.warning(f"Error retrieving netuid {netuid}: {e}")
+                logger.warning(f"user_id:{update.chat.id} - Error retrieving netuid {netuid}: {e}")
                 message += f"({netuid}) Error retrieving price ⚠️\n"
 
     await update.message.reply_text(message, parse_mode="HTML")
@@ -63,7 +63,7 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info('Back')
+    logger.info('user_id:{update.chat.id} - back')
     return await show_commands(update, context)
 
 
