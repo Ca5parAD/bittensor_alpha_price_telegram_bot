@@ -41,8 +41,7 @@ async def outside_conversation(update: Update, context: ContextTypes.DEFAULT_TYP
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.exception(f"user_id:{update.chat.id} - update caused error: {context.error}")
-    # Message to user about error
-    # Way to reset conversation flow to user?
+    await update.message.reply_text(ERROR_MESSAGE, parse_mode="HTML")
 
 
 outside_conversation_handler = MessageHandler(filters.TEXT, unknown_message)
