@@ -20,7 +20,7 @@ def reset_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         del context.user_data['notification_job'] # Clean up notification job
         
     context.user_data['send_notifications_flag'] = False
-    context.user_data['notification_subnets'] = []
+    context.user_data['notification_netuids'] = []
     context.user_data['notification_frequency'] = 24
 
     logger.info(f"user_id:{update.chat.id} - settings set to default")

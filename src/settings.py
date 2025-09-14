@@ -7,7 +7,7 @@ from utils import *
 from messages import *
 from notification_handling import set_notifications
 from simple_commands import show_commands
-from bittensor_calls import valid_subnets_check
+from bittensor_calls import valid_netuids_check
 from debugging import *
 
 logger = logging.getLogger(__name__)
@@ -48,17 +48,26 @@ async def select_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info("user_id:{update.chat.id} - store subnets")
     text = update.message.text.strip()
+    logger.debug(f"user_id:{update.chat.id} - user input: {text}")
 
     try:
-        valid_subnets, invalid_subnets = valid_subnets_check(text)
-        context.user_data['notification_subnets'] = valid_subnets
-        logger.debug(f"user_id:{update.chat.id} - stored subnets: {valid_subnets}")
-        return await settings_command(update, context)
+        valid_netuids, invalid_netuids = valid_netuids_check(text)
  
-    except ValueError as e:
-        logger.warning(f"user_id:{update.chat.id} - invalid input: {text} - {str(e)}")
-        await update.message.reply_text("Invalid input. Please enter subnet IDs (0-128) separated by commas (e.g. 5,7,19,64)")
-        return ENTER_SUBNETS  # Stay in this state for retry
+    except ValueError as e: # Does this need to specify ValueError?
+        logger.debug(f"user_id:{update.chat.id} - invalid input: {text} - {str(e)}")
+        await update.message.reply_text(INVALID_PROCESS_NETUID, parse_mode="HTML")
+        return ENTER_ALPHA_PRICE  # Stay in state for retry
+    
+    else:
+        context.user_data['notification_netuids'] = valid_netuids
+        logger.debug(f"user_id:{update.chat.id} - storing netuids: {valid_netuids}")
+        if invalid_netuids:
+            invalid_netuids_message = "⚠️ Invalid subnet(s):\n"
+            for netuid in invalid_netuids:
+                invalid_netuids_message += f"{netuid}\n"
+                await update.message.reply_text(invalid_netuids_message)
+
+        return await settings_command(update, context)
 
 
 async def select_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

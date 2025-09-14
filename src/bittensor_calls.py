@@ -8,8 +8,11 @@ logger = logging.getLogger(__name__)  # Access logger dynamically
 subtensor = bittensor.subtensor(network='finney') # Setup bittensor network
 
 # Validate each subnet is within range 0-128
-def valid_subnets_check(text: str) -> list[int]:
-    subnets = [int(num.strip()) for num in text.split(',') if num.strip()]
+def valid_netuids_check(text: str) -> list[int]:
+    try:
+        subnets = [int(num.strip()) for num in text.split(',') if num.strip()]
+    except Exception:
+        return
     logger.debug(f"subnets: {subnets}")
 
     valid_subnets = []
