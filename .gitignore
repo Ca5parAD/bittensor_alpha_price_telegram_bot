@@ -1,6 +1,3 @@
-# Ignores changes to the config file from the blank template
-*.json
-
 # Ignores pycache
 __pycache__/
 
@@ -10,7 +7,7 @@ __pycache__/
 # Ignores all text files
 *.txt
 
-# Ignores config file
+# Ignores changes to config file
 config.py
 
 # Ignores DS Store
