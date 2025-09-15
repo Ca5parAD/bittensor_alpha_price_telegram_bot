@@ -1,0 +1,4 @@
+TOKEN = ""
+BOT_USERNAME = ""
+
+LOG_FILE_PATH = ""
