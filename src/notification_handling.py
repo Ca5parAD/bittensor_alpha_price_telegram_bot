@@ -9,11 +9,11 @@ logger = logging.getLogger(__name__)
 
 
 async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.info(f"user_id:{update.chat.id} - set notifications")
+    logger.info(f"user_id:{update.message.chat.id} - set notifications")
     if context.user_data.get('notification_job'):
         context.user_data['notification_job'].schedule_removal()
         del context.user_data['notification_job'] # Clean up notification job
-        logger.debug(f"chat_id:{update.chat.id} - removed notification job")
+        logger.debug(f"chat_id:{update.message.chat.id} - removed notification job")
 
     if context.user_data['send_notifications_flag']:
         interval = context.user_data['notification_frequency']
@@ -28,17 +28,17 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 data=context.user_data
             )
         except Exception as e:
-            logger.error(f"user_id:{update.chat.id} - Failed to create notification job: {e}", exc_info=True)
+            logger.error(f"user_id:{update.message.chat.id} - Failed to create notification job: {e}", exc_info=True)
             await update.message.reply_text("Failed, please try again later")
         else:
-            logger.debug(f"user_id:{update.chat.id} - notification job created")
+            logger.debug(f"user_id:{update.message.chat.id} - notification job created")
             context.user_data['notification_job'] = notification_job # Store job in user data
             await update.message.reply_text(f"Notifcations Set")
 
 
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     message = "<b>Subnet Price Update</b> 📈\n"
-    subnets = context.job.data.get('notification_subnets', [])
+    subnets = context.job.data.get('notification_netuids', [])
     if not subnets:
         message += "No subnets selected 📌.\n"
     else:

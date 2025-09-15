@@ -16,7 +16,7 @@ conversation_flow = ConversationHandler(
     entry_points=[
         CommandHandler("start", start_command),
         CommandHandler('show_commands', start_command),
-        CommandHandler('help', help_command)
+        CommandHandler('help', help_command) # Skips setting up user_data
     ],
 
     states={

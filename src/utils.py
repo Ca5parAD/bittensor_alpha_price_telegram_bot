@@ -23,4 +23,4 @@ def reset_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     context.user_data['notification_netuids'] = []
     context.user_data['notification_frequency'] = 24
 
-    logger.info(f"user_id:{update.chat.id} - settings set to default")
+    logger.info(f"user_id:{update.message.chat.id} - settings set to default")
