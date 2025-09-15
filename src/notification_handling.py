@@ -47,7 +47,7 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
                 netuid_name, netuid_price = get_netuid_info(netuid)
                 message += f"({netuid}) {netuid_name}: {netuid_price}\n"
             except Exception as e:
-                logger.warning(f"Error retrieving netuid {netuid}: {e}")
+                logger.warning(f"failed to retrieve netuid {netuid}: {e}")
                 message += f"({netuid}) Error retrieving price ⚠️\n"
 
     message += "\n ℹ️ /show_commands"
