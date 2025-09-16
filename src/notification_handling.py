@@ -33,7 +33,6 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             logger.debug(f"user_id:{update.message.chat.id} - notification job created")
             context.user_data['notification_job'] = notification_job # Store job in user data
-            await update.message.reply_text(f"Notifcations Set")
 
 
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
