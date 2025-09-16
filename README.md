@@ -65,7 +65,11 @@ python main.py
 
 ## Usage
 
-• Explanation of commands with screen shots
+Usage of the bot is intuative, with sub-commands under each of these:
+- **/start** is used to start the bot, or at any time can reset user settings
+- **/alpha_prices** can be used to query alpha prices
+- **/settings** is used to set user settings
+- **/help** shows a full description of bot commands and navigation
 
 
 ## Contributing
