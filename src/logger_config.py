@@ -15,7 +15,7 @@ def setup_root_logger() -> None:
         maxBytes=5*1024*1024, # 5MB
         backupCount=3  # 3 backups
     )
-    file_handler.setLevel(logging.DEBUG)  # Capture DEBUG for inputs
+    file_handler.setLevel(logging.INFO)  # Capture DEBUG for inputs
     file_handler.setFormatter(logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     ))
