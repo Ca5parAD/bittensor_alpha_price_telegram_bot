@@ -112,7 +112,6 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
     else:
         context.user_data['notification_frequency'] = interval
         logger.info(f"user_id:{update.message.chat.id} - set notification frequency to {interval}")
-        await update.message.reply_text(f"You will recieve a notification every {interval}hrs")
         await set_notifications(update, context)
         return await settings_command(update, context)
     
