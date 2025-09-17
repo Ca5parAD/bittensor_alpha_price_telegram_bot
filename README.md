@@ -1,9 +1,8 @@
 # Bittensor-Alpha-Price-Telegram-Bot
 
-3 images maybe, changing settings, notifications and query alpha price
-
 A telegram bot for allowing users to query the performance of bittensor subnet prices, as well as the option to recieve repetitive notification updates on the performance of their selected subnets.
 
+<img src="https://github.com/Ca5parAD/bittensor_alpha_price_telegram_bot/blob/main/Images/alpha_prices.jpg?raw=true" alt="alpha_prices" height="380"> <img src="https://github.com/Ca5parAD/bittensor_alpha_price_telegram_bot/blob/main/Images/settings%20command.jpg?raw=true" alt="settings" height="380"> <img src="https://github.com/Ca5parAD/bittensor_alpha_price_telegram_bot/blob/main/Images/notifications.jpg?raw=true" alt="notifications" height="380">
 
 ### Prerequisites
 
@@ -46,7 +45,7 @@ pip install -r requirements.txt
 
 ## Setup
 
-To get the bot up and run you must first edit the config file to include your API key and the path to your log file
+To get the bot up and run you must first edit the config file (src/config.py) to include your API key and the path to your log file
 
 ```py
 TOKEN = "123..."
@@ -68,7 +67,12 @@ python main.py
 Usage of the bot is intuative, with sub-commands under each of these:
 - **/start** is used to start the bot, or at any time can reset user settings
 - **/alpha_prices** can be used to query alpha prices
-- **/settings** is used to set user settings
+
+ 
+
+  
+- **/settings** is used to set notification settings
+  
 - **/help** shows a full description of bot commands and navigation
 
 
