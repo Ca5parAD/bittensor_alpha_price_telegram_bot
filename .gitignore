@@ -1,6 +1,9 @@
 # Ignores pycache
 __pycache__/
 
+# Ignores virtual environmet
+venv/
+
 # Ignores all log files
 *.log
 
