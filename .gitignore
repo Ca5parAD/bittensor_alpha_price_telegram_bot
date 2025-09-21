@@ -4,6 +4,9 @@ __pycache__/
 # Ignores virtual environmet
 venv/
 
+# Ignores personal log directory
+Logs/
+
 # Ignores all log files
 *.log
 
