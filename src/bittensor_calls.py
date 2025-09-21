@@ -11,7 +11,6 @@ def valid_netuids_check(text: str) -> list[int]:
         subnets = [int(num.strip()) for num in text.split(',') if num.strip()]
     except Exception:
         return
-    logger.debug(f"subnets: {subnets}")
 
     valid_subnets = []
     invalid_subnets = []
@@ -21,7 +20,6 @@ def valid_netuids_check(text: str) -> list[int]:
         else:
             invalid_subnets.append(num)
 
-    logger.debug(f"valid subnets: {valid_subnets}, invalid subnets: {invalid_subnets}")
     return valid_subnets, invalid_subnets
 
 
