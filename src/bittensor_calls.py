@@ -5,8 +5,6 @@ import bittensor
 
 logger = logging.getLogger(__name__)  # Access logger dynamically
 
-subtensor = bittensor.subtensor(network='finney') # Setup bittensor network
-
 # Validate each subnet is within range 0-128
 def valid_netuids_check(text: str) -> list[int]:
     try:
