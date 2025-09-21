@@ -47,6 +47,11 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
                 message += f"({netuid}) {netuid_name}: {netuid_price}\n"
             except Exception as e:
                 logger.warning(f"failed to retrieve netuid {netuid}: {e}")
+
+                # Check accessing user id
+                logger.error(f"user_id:{context.effective_chat.id} - Error: {e}", exc_info=True)
+                
+                
                 message += f"({netuid}) Error retrieving price ⚠️\n"
 
     message += "\n ℹ️ /show_commands"
