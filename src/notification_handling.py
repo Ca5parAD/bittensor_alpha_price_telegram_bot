@@ -3,7 +3,7 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bittensor_calls import get_netuid_info
+from bittensor_calls import GetNetuidInfoObj
 
 logger = logging.getLogger(__name__)
 
@@ -41,18 +41,19 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     if not subnets:
         message += "No subnets selected 📌.\n"
     else:
-        for i, netuid in enumerate(subnets):
-            try:
-                netuid_name, netuid_price = get_netuid_info(netuid)
-                message += f"({netuid}) {netuid_name}: {netuid_price}\n"
-            except Exception as e:
-                logger.warning(f"failed to retrieve netuid {netuid}: {e}")
+        info_obj = GetNetuidInfoObj
 
-                # Check accessing user id
-                logger.error(f"user_id:{context.effective_chat.id} - Error: {e}", exc_info=True)
-                
-                
+        for netuid in subnets:
+            try:
+                netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
+            except Exception as e:
+                logger.warning(f"user_id:{context.job.chat_id} - failed to retrieve netuid {netuid}: {e}", exc_info=True)
                 message += f"({netuid}) Error retrieving price ⚠️\n"
+            else:
+                message += f"({netuid}) {netuid_name}: {netuid_price}\n"
+
+        info_obj.close()
+        del info_obj
 
     message += "\n ℹ️ /show_commands"
     try:

@@ -39,15 +39,17 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 await update.message.reply_text(invalid_netuids_message)
 
         message = "<b>Subnet Prices</b> 📈\n"
-
+        info_obj = GetNetuidInfoObj
         for netuid in valid_netuids:
             try:
-                netuid_name, netuid_price = get_netuid_info(netuid)
+                netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
             except Exception as e:
                 logger.warning(f"user_id:{update.message.chat.id} - Error retrieving netuid {netuid}: {e}")
                 message += f"({netuid}) Error retrieving price ⚠️\n"
             else:
                 message += f"({netuid}) {netuid_name}: {netuid_price}\n"
+
+        info_obj.close()
             
         await update.message.reply_text(message, parse_mode="HTML")
         return await show_commands(update, context)

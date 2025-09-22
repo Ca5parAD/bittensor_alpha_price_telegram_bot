@@ -22,19 +22,13 @@ def valid_netuids_check(text: str) -> list[int]:
 
     return valid_subnets, invalid_subnets
 
+class GetNetuidInfoObj:
+    def __init__(self):
+        self.subtensor = bittensor.subtensor(network='finney')
 
-def get_netuid_info(netuid: int):
-    with bittensor.subtensor(network='finney') as subtensor:
-        info = subtensor.subnet(netuid)
-    return info.subnet_name, info.price
-
-
-""" Options for more efficient info:
-    establish subtensor instance at start of loop, pass as arg to get_netuid function
-    use class, init at start of loop, use self.subtensor to pass through - just need to figure how to close and clean up after loop
-
-    implimenting this could also use async to send out all requests concurrently
-
-    unsure if the method approuch could be effectively closed like the with approuch
-
-    """
+    def get_netuid_info(self, netuid: int):
+        info = self.subtensor.subnet(netuid)
+        return info.subnet_name, info.price
+    
+    def close(self):
+        self.subtensor.close()
