@@ -63,15 +63,18 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if not subnets:
         message += "No subnets selected 📌.\n"
     else:
-        for i, netuid in enumerate(subnets):
+        info_obj = GetNetuidInfoObj
+        for netuid in subnets:
             try:
-                netuid_name, netuid_price = get_netuid_info(netuid)
+                netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
                 message += f"({netuid}) {netuid_name}: {netuid_price}\n"
             except Exception as e:
                 logger.warning(f"user_id:{update.message.chat.id} - Error retrieving netuid {netuid}: {e}")
                 message += f"({netuid}) Error retrieving price ⚠️\n"
 
-    await update.message.reply_text(message, parse_mode="HTML")
+        info_obj.close()
+        await update.message.reply_text(message, parse_mode="HTML")
+        
     return await show_commands(update, context)
 
 
