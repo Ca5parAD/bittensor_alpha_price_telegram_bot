@@ -42,7 +42,7 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     if not subnets:
         message += "No subnets selected 📌.\n"
     else:
-        info_obj = GetNetuidInfoObj
+        info_obj = GetNetuidInfoObj()
 
         for netuid in subnets:
             try:

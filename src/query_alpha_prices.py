@@ -40,7 +40,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 await update.message.reply_text(invalid_netuids_message)
 
         message = "<b>Subnet Prices</b> 📈\n"
-        info_obj = GetNetuidInfoObj
+        info_obj = GetNetuidInfoObj()
         for netuid in valid_netuids:
             try:
                 netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
@@ -64,7 +64,7 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if not subnets:
         message += "No subnets selected 📌.\n"
     else:
-        info_obj = GetNetuidInfoObj
+        info_obj = GetNetuidInfoObj()
         for netuid in subnets:
             try:
                 netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
