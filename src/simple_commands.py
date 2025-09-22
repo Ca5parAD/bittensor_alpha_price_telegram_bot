@@ -8,6 +8,7 @@ from utils import *
 
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 # Start command bolts on setup and welcome message to top level directions

@@ -11,6 +11,7 @@ from bittensor_calls import valid_netuids_check
 from debugging import *
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:

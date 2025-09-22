@@ -15,7 +15,7 @@ def setup_root_logger() -> None:
         maxBytes=5*1024*1024, # 5MB
         backupCount=3  # 3 backups
     )
-    file_handler.setLevel(logging.INFO)  # Capture DEBUG for inputs
+    file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     ))
@@ -26,8 +26,3 @@ def setup_root_logger() -> None:
     stream_handler.setLevel(logging.INFO)
     stream_handler.setFormatter(logging.Formatter("%(name)s - %(levelname)s - %(message)s"))
     root_logger.addHandler(stream_handler)
-
-    # Explicitly set levels for our modules
-    logging.getLogger('simple_commands').setLevel(logging.INFO)
-    logging.getLogger('query_alpha_price').setLevel(logging.DEBUG)
-    logging.getLogger('settings').setLevel(logging.DEBUG)

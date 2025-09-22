@@ -10,6 +10,7 @@ from simple_commands import show_commands
 
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 async def query_netuid_price(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -74,7 +75,7 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
         info_obj.close()
         await update.message.reply_text(message, parse_mode="HTML")
-        
+
     return await show_commands(update, context)
 
 

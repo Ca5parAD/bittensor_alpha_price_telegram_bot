@@ -5,10 +5,12 @@ from telegram.ext import Application, ContextTypes
 
 from config import TOKEN
 
-logger = logging.getLogger(__name__)
 
 # States
 SELECT_COMMAND, ENTER_ALPHA_PRICE, SELECT_SETTING, ENTER_SUBNETS, SELECT_NOTIF_FREQ, CUSTOM_NOTIF_FREQ, HELP = range(7)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 # Build bot

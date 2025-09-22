@@ -8,6 +8,7 @@ from utils import app
 
 setup_root_logger()
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 if __name__ == '__main__':
     logger.info("program started")

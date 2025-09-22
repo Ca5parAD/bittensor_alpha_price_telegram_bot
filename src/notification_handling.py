@@ -6,6 +6,7 @@ from telegram.ext import ContextTypes
 from bittensor_calls import GetNetuidInfoObj
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
