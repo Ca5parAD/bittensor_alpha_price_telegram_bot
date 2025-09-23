@@ -9,7 +9,7 @@ def setup_root_logger() -> None:
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
 
-    # Main log file with rotation (DEBUG and above)
+    # Main log file with rotation
     file_handler = RotatingFileHandler(
         LOG_FILE_PATH,
         maxBytes=5*1024*1024, # 5MB

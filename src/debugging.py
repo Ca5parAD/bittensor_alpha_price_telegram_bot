@@ -5,7 +5,9 @@ from telegram.ext import ContextTypes
 
 from notification_handling import set_notifications
 
+
 logger = logging.getLogger(__name__)
+
 
 async def test_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info("testing notifications")

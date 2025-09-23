@@ -3,8 +3,8 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes, MessageHandler, filters
 
-from messages import *
 from utils import *
+from messages import *
 
 
 logger = logging.getLogger(__name__)
@@ -46,4 +46,3 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 outside_conversation_handler = MessageHandler(filters.TEXT, unknown_message)
-

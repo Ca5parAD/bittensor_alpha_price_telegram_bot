@@ -1,14 +1,15 @@
 import logging
 
 from telegram import Update
-from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler, ConversationHandler
+from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler
 
 from utils import *
 from messages import *
-from notification_handling import set_notifications
 from simple_commands import show_commands
 from bittensor_calls import valid_netuids_check
+from notification_handling import set_notifications
 from debugging import *
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -20,7 +21,7 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     subnets = context.user_data.get('notification_netuids', [])
     frequency = context.user_data.get('notification_frequency', 'Not set')
     if not frequency % 1:
-        frequency = int(frequency)    
+        frequency = int(frequency)
     
     await update.message.reply_text(
         f"<b>Current Settings</b> ⚙️\n"
@@ -37,7 +38,6 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     context.user_data['send_notifications_flag'] = not context.user_data['send_notifications_flag']
 
     await set_notifications(update, context)
-
     return await settings_command(update, context)
 
 
@@ -76,7 +76,6 @@ async def select_notification_frequency(update: Update, context: ContextTypes.DE
     await update.message.reply_text(SELECT_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return SELECT_NOTIF_FREQ
 
-
 async def store_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info(f"user_id:{update.message.chat.id} - store Notification Frequency")
     text = update.message.text
@@ -84,7 +83,7 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
     
     if text in freq_map:
         context.user_data['notification_frequency'] = freq_map[text]
-        await set_notifications(update, context)   
+        await set_notifications(update, context)
         return await settings_command(update, context)
     else:
         logger.error(f"user_id:{update.message.chat.id} - invalid frequency: {text}")
@@ -96,7 +95,6 @@ async def custom_notification_frequency(update: Update, context: ContextTypes.DE
     logger.info(f"user_id:{update.message.chat.id} - custom notification frequency")
     await update.message.reply_text(CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return CUSTOM_NOTIF_FREQ
-
 
 async def store_custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info(f"user_id:{update.message.chat.id} - store custom notification frequency")
@@ -115,7 +113,7 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
         logger.info(f"user_id:{update.message.chat.id} - set notification frequency to {interval}")
         await set_notifications(update, context)
         return await settings_command(update, context)
-    
+
 
 async def back_select_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info(f"user_id:{update.message.chat.id} - back")
@@ -139,13 +137,10 @@ select_setting_commands = [
     CommandHandler("user_data", test_user_data)
 ]
 
-
 enter_subnets_commands = [
     CommandHandler("back", back_select_setting),
     MessageHandler(filters.TEXT & ~filters.COMMAND, store_subnets)
 ]
-
-
 
 select_notification_frequency_commands = [
     CommandHandler("1hr", store_notification_frequency),
@@ -160,4 +155,3 @@ custom_notification_frequency_commands = [
     CommandHandler("back", back_select_setting),
     MessageHandler(filters.TEXT & ~filters.COMMAND, store_custom_notification_frequency)
 ]
-

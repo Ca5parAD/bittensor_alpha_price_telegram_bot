@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes
 
 from bittensor_calls import GetNetuidInfoObj
 
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -29,7 +30,10 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 data=context.user_data
             )
         except Exception as e:
-            logger.error(f"user_id:{update.message.chat.id} - Failed to create notification job: {e}", exc_info=True)
+            logger.error(
+                f"user_id:{update.message.chat.id} - Failed to create notification job: {e}",
+                exc_info=True
+            )
             await update.message.reply_text("Failed, please try again later")
         else:
             logger.debug(f"user_id:{update.message.chat.id} - notification job created")
@@ -63,4 +67,3 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
         logger.error(f"user_id:{context.chat.id} - notifcation failed to send") # Need to access user id from context
     else:
         logger.info(f"user_id:{context.chat.id} - notifcation sent") # Need to access user id from context
-

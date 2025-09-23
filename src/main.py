@@ -1,9 +1,9 @@
 import logging
 
 from logger_config import setup_root_logger
-from simple_commands import outside_conversation_handler, error
-from conversation_handling import conversation_flow
 from utils import app
+from conversation_handling import conversation_flow
+from simple_commands import outside_conversation_handler, error
 
 
 setup_root_logger()
@@ -18,4 +18,3 @@ if __name__ == '__main__':
     app.add_error_handler(error)
 
     app.run_polling()
-

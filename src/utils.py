@@ -12,9 +12,9 @@ SELECT_COMMAND, ENTER_ALPHA_PRICE, SELECT_SETTING, ENTER_SUBNETS, SELECT_NOTIF_F
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-
 # Build bot
 app = Application.builder().token(TOKEN).build() 
+
 
 def reset_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if context.user_data.get('notification_job'):

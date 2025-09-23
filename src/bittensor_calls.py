@@ -1,5 +1,3 @@
-import logging
-
 import bittensor
 
 
@@ -19,6 +17,7 @@ def valid_netuids_check(text: str) -> list[int]:
             invalid_subnets.append(num)
 
     return valid_subnets, invalid_subnets
+
 
 class GetNetuidInfoObj:
     def __init__(self):

@@ -5,8 +5,8 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler
 
 from utils import ENTER_ALPHA_PRICE
 from messages import ALPHA_PRICE_MESSAGE, INVALID_PROCESS_NETUID
-from bittensor_calls import *
 from simple_commands import show_commands
+from bittensor_calls import *
 
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,6 @@ async def query_netuid_price(update: Update, context: ContextTypes.DEFAULT_TYPE)
     logger.info(f"user_id:{update.message.chat.id} - query netuid price (alpha price command)")
     await update.message.reply_text(ALPHA_PRICE_MESSAGE, parse_mode="HTML")
     return ENTER_ALPHA_PRICE
-
 
 async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     logger.info(f"user_id:{update.message.chat.id} - store subnets")
@@ -51,7 +50,7 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 message += f"({netuid}) {netuid_name}: {netuid_price}\n"
 
         info_obj.close()
-            
+
         await update.message.reply_text(message, parse_mode="HTML")
         return await show_commands(update, context)
 
@@ -89,4 +88,3 @@ enter_alpha_price_commands = [
     CommandHandler('back', back),
     MessageHandler(filters.TEXT & ~filters.COMMAND, process_netuid)
 ]
-
