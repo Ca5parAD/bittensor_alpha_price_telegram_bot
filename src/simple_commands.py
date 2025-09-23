@@ -19,7 +19,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return await show_commands(update, context)
 
 async def show_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.debug(f"user_id:{update.message.chat.id} - show commands")
+    logger.info(f"user_id:{update.message.chat.id} - show commands")
     await update.message.reply_text(SHOW_COMMANDS_MESSAGE, parse_mode="HTML")
     return SELECT_COMMAND
 

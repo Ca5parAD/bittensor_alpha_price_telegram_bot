@@ -10,13 +10,13 @@ logger.setLevel(logging.INFO)
 
 
 async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.info(f"user_id:{update.message.chat.id} - set notifications")
     if context.user_data.get('notification_job'):
         context.user_data['notification_job'].schedule_removal()
         del context.user_data['notification_job'] # Clean up notification job
         logger.debug(f"chat_id:{update.message.chat.id} - removed notification job")
 
     if context.user_data['send_notifications_flag']:
+        logger.info(f"user_id:{update.message.chat.id} - set notifications")
         interval = context.user_data['notification_frequency']
         interval_s = interval * 60 ** 2
 

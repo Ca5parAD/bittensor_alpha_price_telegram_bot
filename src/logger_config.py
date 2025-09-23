@@ -26,3 +26,6 @@ def setup_root_logger() -> None:
     stream_handler.setLevel(logging.INFO)
     stream_handler.setFormatter(logging.Formatter("%(name)s - %(levelname)s - %(message)s"))
     root_logger.addHandler(stream_handler)
+
+    # Explicitly set levels for our modules
+    logging.getLogger('simple_commands').setLevel(logging.INFO)
