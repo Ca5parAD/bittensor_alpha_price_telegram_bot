@@ -52,7 +52,10 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
             try:
                 netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
             except Exception as e:
-                logger.warning(f"user_id:{context.job.chat_id} - failed to retrieve netuid {netuid}: {e}", exc_info=True)
+                logger.warning(
+                    f"user_id:{context.job.chat_id} - failed to retrieve netuid {netuid}: {e}",
+                    exc_info=True
+                )
                 message += f"({netuid}) Error retrieving price ⚠️\n"
             else:
                 message += f"({netuid}) {netuid_name}: {netuid_price}\n"
@@ -64,6 +67,6 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     try:
         await context.bot.send_message(chat_id=context.job.chat_id, text=message, parse_mode="HTML")
     except Exception as e:
-        logger.error(f"user_id:{context.chat.id} - notifcation failed to send") # Need to access user id from context
+        logger.error(f"user_id:{context.job.chat_id} - notifcation failed to send") # Need to access user id from context
     else:
-        logger.info(f"user_id:{context.chat.id} - notifcation sent") # Need to access user id from context
+        logger.info(f"user_id:{context.job.chat_id} - notifcation sent") # Need to access user id from context

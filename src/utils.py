@@ -16,7 +16,7 @@ logger.setLevel(logging.INFO)
 app = Application.builder().token(TOKEN).build() 
 
 
-def reset_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+def setup_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if context.user_data.get('notification_job'):
         context.user_data['notification_job'].schedule_removal()
         del context.user_data['notification_job'] # Clean up notification job
