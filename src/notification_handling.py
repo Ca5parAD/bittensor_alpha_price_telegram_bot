@@ -14,7 +14,7 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get('notification_job'):
         context.user_data['notification_job'].schedule_removal()
         del context.user_data['notification_job'] # Clean up notification job
-        logger.debug(f"chat_id:{update.effective_user.id} - removed notification job")
+        logger.debug(f"user_id:{update.effective_user.id} - removed notification job")
 
     if context.user_data['send_notifications_flag']:
         logger.info(f"user_id:{update.effective_user.id} - set notifications")
