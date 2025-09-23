@@ -14,10 +14,10 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if context.user_data.get('notification_job'):
         context.user_data['notification_job'].schedule_removal()
         del context.user_data['notification_job'] # Clean up notification job
-        logger.debug(f"chat_id:{update.message.chat.id} - removed notification job")
+        logger.debug(f"chat_id:{update.effective_user.id} - removed notification job")
 
     if context.user_data['send_notifications_flag']:
-        logger.info(f"user_id:{update.message.chat.id} - set notifications")
+        logger.info(f"user_id:{update.effective_user.id} - set notifications")
         interval = context.user_data['notification_frequency']
         interval_s = interval * 60 ** 2
 
@@ -31,12 +31,12 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         except Exception as e:
             logger.error(
-                f"user_id:{update.message.chat.id} - Failed to create notification job: {e}",
+                f"user_id:{update.effective_user.id} - Failed to create notification job: {e}",
                 exc_info=True
             )
             await update.message.reply_text("Failed, please try again later")
         else:
-            logger.debug(f"user_id:{update.message.chat.id} - notification job created")
+            logger.debug(f"user_id:{update.effective_user.id} - notification job created")
             context.user_data['notification_job'] = notification_job # Store job in user data
 
 
