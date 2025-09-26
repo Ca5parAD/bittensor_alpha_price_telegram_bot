@@ -18,11 +18,13 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(START_MESSAGE, parse_mode="HTML")
     return await show_commands(update, context)
 
+# Shows user top level directions
 async def show_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"user_id:{update.effective_user.id} - show commands")
     await update.message.reply_text(SHOW_COMMANDS_MESSAGE, parse_mode="HTML")
     return SELECT_COMMAND
 
+# Gives full program commands
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"user_id:{update.effective_user.id} - help command")
     await update.message.reply_text(HELP_MESSAGE, parse_mode="HTML")
@@ -36,6 +38,7 @@ async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     logger.info(f"user_id:{update.effective_user.id} - unknown message")
     await update.message.reply_text(UNKNOWN_MESSAGE, parse_mode="HTML")
 
+# Unrecognised message outside of conversation flow
 async def outside_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info(f"user_id:{update.effective_user.id} - outside conversation")
     await update.message.reply_text(OUTSIDE_CONVERSATION_MESSAGE, parse_mode="HTML")
@@ -45,4 +48,4 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(ERROR_MESSAGE, parse_mode="HTML")
 
 
-outside_conversation_handler = MessageHandler(filters.TEXT, unknown_message)
+outside_conversation_handler = MessageHandler(filters.TEXT, outside_conversation)

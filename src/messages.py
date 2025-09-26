@@ -71,7 +71,6 @@ INVALID_NOTIFICATION_FREQUENCY: Final = (
     "Use /back to go back ↩️\n"
 )
 
-# ****************************
 CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
     "<b>Custom Notification Frequency</b> ⏰\n\n"
     "Enter your notification interval in hours\n\n"

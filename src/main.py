@@ -17,4 +17,5 @@ if __name__ == '__main__':
     app.add_handler(outside_conversation_handler) # Catches commands outside of conversation flow
     app.add_error_handler(error)
 
+    # Starts program polling
     app.run_polling()

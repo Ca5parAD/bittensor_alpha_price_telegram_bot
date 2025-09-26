@@ -4,13 +4,14 @@ import bittensor
 # Validate each subnet is within range 0-128
 def valid_netuids_check(text: str) -> list[int]:
     try:
+        # Creates list of numbers if valid response format (numbers seperated by ',')
         subnets = [int(num.strip()) for num in text.split(',') if num.strip()]
     except Exception:
         return
 
     valid_subnets = []
     invalid_subnets = []
-    for num in subnets:
+    for num in subnets: # Create lists of valid and invalid netuids
         if 0 <= num <= 128:
             valid_subnets.append(num)
         else:
@@ -21,9 +22,11 @@ def valid_netuids_check(text: str) -> list[int]:
 
 class GetNetuidInfoObj:
     def __init__(self):
+        # Create bittensor connection
         self.subtensor = bittensor.subtensor(network='finney')
 
     def get_netuid_info(self, netuid: int):
+        # Fetches subnet object containing subnet info
         info = self.subtensor.subnet(netuid)
         return info.subnet_name, info.price
     
