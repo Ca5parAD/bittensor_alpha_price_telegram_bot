@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 if __name__ == '__main__':
-    logger.info("program started")
+    logger.critical("program started")
 
     app.add_handler(conversation_flow)
     app.add_handler(outside_conversation_handler) # Catches commands outside of conversation flow

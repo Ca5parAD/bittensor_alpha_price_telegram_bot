@@ -48,25 +48,34 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     subnets = context.job.data.get('notification_netuids', [])
     if not subnets:
         message += "No subnets selected 📌.\n"
+        logger.debug(f"user_id:{context.job.chat_id} - No subnets selected")
     else:
-        info_obj = GetNetuidInfoObj() # Initiate bittensor connection
-
-        # Append message with each netuid and price
-        for netuid in subnets:
+        try:
+            info_obj = GetNetuidInfoObj() # Initiate bittensor connection
             try:
-                netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
-            except Exception as e:
-                logger.warning(
-                    f"user_id:{context.job.chat_id} - failed to retrieve netuid {netuid}: {e}",
-                    exc_info=True
-                )
-                message += f"({netuid}) Error retrieving price ⚠️\n"
-            else:
-                message += f"({netuid}) {netuid_name}: {netuid_price}\n"
-        
-        # Close bittensor connection and clean up
-        info_obj.close()
-        del info_obj
+                # Append message with each netuid and price
+                for netuid in subnets:
+                    try:
+                        netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
+                        logger.debug(f"user_id:{context.job.chat_id} - Retrieved netuid {netuid}: {netuid_name} -> {netuid_price}")
+                        message += f"({netuid}) {netuid_name}: {netuid_price}\n"
+                    except Exception as e:
+                        logger.error(
+                            f"user_id:{context.job.chat_id} - failed retrieving netuid {netuid}: {e}",
+                            exc_info=True
+                        )
+                        message += f"({netuid}) Error retrieving price ⚠️\n"
+
+            finally: # Close bittensor connection and clean up
+                info_obj.close()
+                logger.debug(f"user_id:{context.job.chat_id} - Closed subtensor connection")
+                del info_obj
+        except Exception as e:
+            logger.error(
+                f"user_id:{context.job.chat_id} - Failed to create subtensor connection: {e}",
+                exc_info=True
+            )
+            message += "Failed to connect to network 😓\n\n"
 
     message += "\n ℹ️ /show_commands" # Finish message with show commands prompt
     try:
