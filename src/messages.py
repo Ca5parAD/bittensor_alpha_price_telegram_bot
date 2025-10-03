@@ -81,13 +81,13 @@ CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE: Final = (
 UNKNOWN_COMMAND: Final = (
     "❌ That's not a valid command\n"
     "Please try again\n\n"
-    "Or use /back to go back ↩️\n"
+    "Or use /help ↩️\n"
 )
 
 UNKNOWN_MESSAGE: Final = (
     "🤔 I'm not sure what you meant - I'm probably expecting a command\n\n"
     "Please try again\n\n"
-    "Or use /back to go back ↩️\n"
+    "Or use /help ↩️\n"
 )
 
 OUTSIDE_CONVERSATION_MESSAGE: Final = (
