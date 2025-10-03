@@ -1,4 +1,6 @@
-import bittensor
+import requests
+
+from config import TAO_STATS_API_KEY
 
 
 # Validate each subnet is within range 0-128
@@ -23,12 +25,20 @@ def valid_netuids_check(text: str) -> list[int]:
 class GetNetuidInfoObj:
     def __init__(self):
         # Create bittensor connection
-        self.subtensor = bittensor.subtensor(network='finney')
+        url = "https://api.taostats.io/api/dtao/pool/latest/v1?page=1"
+        headers = {
+            "accept": "application/json",
+            "Authorization": TAO_STATS_API_KEY
+        }
+
+        response = requests.get(url, headers=headers)
+        self.info = response.json()['data']
 
     def get_netuid_info(self, netuid: int):
         # Fetches subnet object containing subnet info
-        info = self.subtensor.subnet(netuid)
-        return info.subnet_name, info.price
+        for info in self.info:
+            if info['netuid'] == netuid:
+                return info['name'], info['price']
     
     def close(self):
-        self.subtensor.close()
+        pass
