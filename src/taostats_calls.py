@@ -50,6 +50,6 @@ def get_subnets_info_text(netuids: list[int]):
     # Format info into body of text
     info_text = str()
     for info in subnets_info:
-        info_text += f"({info['netuid']}) {info['name']}: {info['price']}\n"
+        info_text += f"({info['netuid']}) {info['name']}: {round(info['price'], 6)}\n"
 
     return info_text
