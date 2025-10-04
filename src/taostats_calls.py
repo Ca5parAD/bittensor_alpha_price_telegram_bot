@@ -21,6 +21,7 @@ def valid_netuids_check(text: str) -> list[int]:
 
     return valid_subnets, invalid_subnets
 
+
 def get_subnets_info(netuids: list[int]):
     '''Returns dict of netuid key and subnet info value from taostats'''
 
@@ -41,16 +42,45 @@ def get_subnets_info(netuids: list[int]):
         if subnet['netuid'] in netuids_set:
             subnets_info[int(subnet['netuid'])] = subnet
 
-    return subnets_info
+    ordered_subnets_info = dict(sorted(subnets_info.items()))
+    return ordered_subnets_info
 
+def get_total_subnets_value():
+    '''Returns total subnet value rounded to 3 dp'''
+    url = "https://api.taostats.io/api/dtao/pool/total_price/latest/v1"
+    headers = {
+        "accept": "application/json",
+        "Authorization": TAO_STATS_API_KEY
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()['data']
+    return round(float(data[0]['price']), 3)
 
 def get_subnets_info_text(netuids: list[int]):
+    '''Format info into body of text'''
     subnets_info = get_subnets_info(netuids)
-    ordered_subnets_info = dict(sorted(subnets_info.items()))
 
-    # Format info into body of text
-    info_text = str()
-    for info in ordered_subnets_info.values():
-        info_text += f"({info['netuid']}) {info['name']}: {round(float(info['price']), 6)}\n"
+    info_text = f"Total subnet value: {get_total_subnets_value()}"
+    info_text += f"\n------------------------------\n"
+
+    for info in subnets_info.values():
+        info_text += f"(<b>{info['netuid']}</b>) <b>{info['name']}</b>: {round(float(info['price']), 6)}\n"
+
+        time_changes = dict()
+        time_changes['1H'] = round(float(info['price_change_1_hour']), 2)
+        time_changes['24H'] = round(float(info['price_change_1_day']), 2)
+        time_changes['1W'] = round(float(info['price_change_1_week']), 2)
+        time_changes['1M'] = round(float(info['price_change_1_month']), 2)
+
+        for time, change in time_changes.items():
+            if change > 0:
+                info_text += f"🟢 <b>{time}</b>: +{change}%\n"
+            elif change < 0:
+                info_text += f"🔴 <b>{time}</b>: {change}%\n"
+            else:
+                info_text += f"⚪️ <b>{time}</b>: {change}%\n"
+
+        info_text += f"------------------------------\n"
 
     return info_text
