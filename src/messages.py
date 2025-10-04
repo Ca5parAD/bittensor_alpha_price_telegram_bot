@@ -97,7 +97,7 @@ OUTSIDE_CONVERSATION_MESSAGE: Final = (
 
 # Error message
 ERROR_MESSAGE: Final = (
-    "😢 An error occured, please try again\n"
-    "or use /help"
+    "😢 An error occured, please try again\n\n"
+    "or use /help\n"
     "If problems persist, use /start to restart the conversation"
 )
