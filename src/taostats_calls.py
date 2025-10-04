@@ -22,7 +22,7 @@ def valid_netuids_check(text: str) -> list[int]:
     return valid_subnets, invalid_subnets
 
 def get_subnets_info(netuids: list[int]):
-    '''Returns list of the subnet info from taostats'''
+    '''Returns dict of netuid key and subnet info value from taostats'''
 
     # Impliment caching and time logic to not go over api limit
 
@@ -36,20 +36,21 @@ def get_subnets_info(netuids: list[int]):
     data = response.json()['data']
 
     netuids_set = set(netuids)
-    subnets_info = list()
+    subnets_info = dict()
     for subnet in data:
         if subnet['netuid'] in netuids_set:
-            subnets_info.append(subnet)
+            subnets_info[int(subnet['netuid'])] = subnet
 
     return subnets_info
 
 
 def get_subnets_info_text(netuids: list[int]):
     subnets_info = get_subnets_info(netuids)
+    ordered_subnets_info = dict(sorted(subnets_info.items()))
 
     # Format info into body of text
     info_text = str()
-    for info in subnets_info:
+    for info in ordered_subnets_info:
         info_text += f"({info['netuid']}) {info['name']}: {round(info['price'], 6)}\n"
 
     return info_text
