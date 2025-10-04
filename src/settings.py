@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler
 from utils import *
 from messages import *
 from simple_commands import show_commands
-from bittensor_calls import valid_netuids_check
+from taostats_calls import valid_netuids_check
 from notification_handling import set_notifications
 from debugging import *
 

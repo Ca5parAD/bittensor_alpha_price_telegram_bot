@@ -42,3 +42,27 @@ class GetNetuidInfoObj:
     
     def close(self):
         pass
+
+
+def get_netuid_prices(netuids: list[int]):
+    # Impliment caching and time logic to not go over api limit
+
+    url = "https://api.taostats.io/api/dtao/pool/latest/v1?page=1"
+    headers = {
+        "accept": "application/json",
+        "Authorization": TAO_STATS_API_KEY
+    }
+
+    response = requests.get(url, headers=headers)
+    data = response.json()['data']
+
+    # Lambda function? for efficiently itereating through data grabbing where data['netuid']
+    # is in set(netuids)
+
+    info = []
+
+    for subnet in data:
+        if subnet['netuid'] in set(netuids):
+            info.append((subnet['netuid'], subnet['name'], subnet['price']))
+
+    return info

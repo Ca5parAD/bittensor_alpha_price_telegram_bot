@@ -6,7 +6,7 @@ from telegram.ext import filters, ContextTypes, CommandHandler, MessageHandler
 from utils import ENTER_ALPHA_PRICE
 from messages import ALPHA_PRICE_MESSAGE, INVALID_PROCESS_NETUID
 from simple_commands import show_commands
-from bittensor_calls import *
+from taostats_calls import *
 
 
 logger = logging.getLogger(__name__)
@@ -41,20 +41,25 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 await update.message.reply_text(invalid_netuids_message)
 
         message = "<b>Subnet Prices</b> 📈\n"
-        info_obj = GetNetuidInfoObj() # Open bittensor connection
-        for netuid in valid_netuids:
-            try: # Obtain netuid info and append format to message
-                netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
-            except Exception as e:
-                logger.warning(f"user_id:{update.effective_user.id} - Error retrieving netuid {netuid}: {e}")
-                message += f"({netuid}) Error retrieving price ⚠️\n"
-            else:
-                message += f"({netuid}) {netuid_name}: {netuid_price}\n"
 
-        info_obj.close() # Close bittensor connection
+
+
+
+        try: # Obtain netuid info and append format to message
+            netuid_info = get_netuid_prices(valid_netuids)
+        except Exception as e:
+            logger.warning(f"user_id:{update.effective_user.id} - Error retrieving netuid info: {e}")
+            message += f"({netuid}) Error retrieving prices ⚠️\n"
+        else:
+            for netuid in netuid_info:
+                message += f"({netuid[0]}) {netuid[1]}: {netuid[2]}\n"
 
         await update.message.reply_text(message, parse_mode="HTML")
         return await show_commands(update, context)
+
+
+
+
 
 
 # Print prices of users notification settings

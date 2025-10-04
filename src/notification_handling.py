@@ -3,7 +3,7 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from bittensor_calls import GetNetuidInfoObj
+from taostats_calls import get_netuid_prices
 
 
 logger = logging.getLogger(__name__)
@@ -45,37 +45,20 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     message = "<b>Subnet Price Update</b> 📈\n" # Start message
-    subnets = context.job.data.get('notification_netuids', [])
-    if not subnets:
+    netuids = context.job.data.get('notification_netuids', [])
+    if not netuids:
         message += "No subnets selected 📌.\n"
         logger.debug(f"user_id:{context.job.chat_id} - No subnets selected")
     else:
         try:
-            info_obj = GetNetuidInfoObj() # Initiate bittensor connection
-            try:
-                # Append message with each netuid and price
-                for netuid in subnets:
-                    try:
-                        netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
-                        logger.debug(f"user_id:{context.job.chat_id} - Retrieved netuid {netuid}: {netuid_name} -> {netuid_price}")
-                        message += f"({netuid}) {netuid_name}: {netuid_price}\n"
-                    except Exception as e:
-                        logger.error(
-                            f"user_id:{context.job.chat_id} - failed retrieving netuid {netuid}: {e}",
-                            exc_info=True
-                        )
-                        message += f"({netuid}) Error retrieving price ⚠️\n"
+            get_netuid_prices(netuids)
 
-            finally: # Close bittensor connection and clean up
-                info_obj.close()
-                logger.debug(f"user_id:{context.job.chat_id} - Closed subtensor connection")
-                del info_obj
         except Exception as e:
             logger.error(
-                f"user_id:{context.job.chat_id} - Failed to create subtensor connection: {e}",
+                f"user_id:{context.job.chat_id} - API call failed: {e}",
                 exc_info=True
             )
-            message += "Failed to connect to network 😓\n\n"
+            message += "Failed to connect to tao stats 😓\n\n"
 
     message += "\n ℹ️ /show_commands" # Finish message with show commands prompt
     try:
