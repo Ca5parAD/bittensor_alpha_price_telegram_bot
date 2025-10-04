@@ -61,11 +61,11 @@ def get_subnets_info_text(netuids: list[int]):
     '''Format info into body of text'''
     subnets_info = get_subnets_info(netuids)
 
-    info_text = f"Total subnet value: {get_total_subnets_value()}"
-    info_text += f"\n------------------------------\n"
+    info_text = f"Total subnet value: {get_total_subnets_value()}\n"
 
     for info in subnets_info.values():
-        info_text += f"(<b>{info['netuid']}</b>) <b>{info['name']}</b>: {round(float(info['price']), 6)}\n"
+        info_text += f"------------------------------\n"
+        info_text += f"(<b>{info['netuid']}</b>) <b>{info['name']}</b>: <b>{round(float(info['price']), 6)}</b>\n"
 
         time_changes = dict()
         time_changes['1H'] = round(float(info['price_change_1_hour']), 2)
@@ -80,7 +80,5 @@ def get_subnets_info_text(netuids: list[int]):
                 info_text += f"🔴 <b>{time}</b>: {change}%\n"
             else:
                 info_text += f"⚪️ <b>{time}</b>: {change}%\n"
-
-        info_text += f"------------------------------\n"
 
     return info_text
