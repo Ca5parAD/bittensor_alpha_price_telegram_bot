@@ -42,25 +42,21 @@ async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
         message = "<b>Subnet Prices</b> 📈\n"
 
+        try:
+            subnets_info_text = get_subnets_info_text(valid_netuids)
 
-
-
-        try: # Obtain netuid info and append format to message
-            netuid_info = get_netuid_prices(valid_netuids)
         except Exception as e:
-            logger.warning(f"user_id:{update.effective_user.id} - Error retrieving netuid info: {e}")
-            message += f"({netuid}) Error retrieving prices ⚠️\n"
+            logger.error(
+                f"user_id:{context.job.chat_id} - API call failed: {e}",
+                exc_info=True
+            )
+            message += "Failed to connect to tao stats 😓\n\n"
+
         else:
-            for netuid in netuid_info:
-                message += f"({netuid[0]}) {netuid[1]}: {netuid[2]}\n"
+            message += subnets_info_text
 
         await update.message.reply_text(message, parse_mode="HTML")
         return await show_commands(update, context)
-
-
-
-
-
 
 # Print prices of users notification settings
 async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -71,16 +67,18 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if not subnets:
         message += "No subnets selected 📌.\n"
     else:
-        info_obj = GetNetuidInfoObj() # Open bittensor connection
-        for netuid in subnets:
-            try: # Obtain netuid info and append format to message
-                netuid_name, netuid_price = info_obj.get_netuid_info(netuid)
-                message += f"({netuid}) {netuid_name}: {netuid_price}\n"
-            except Exception as e:
-                logger.warning(f"user_id:{update.effective_user.id} - Error retrieving netuid {netuid}: {e}")
-                message += f"({netuid}) Error retrieving price ⚠️\n"
+        try:
+            subnets_info_text = get_subnets_info_text(subnets)
 
-        info_obj.close() # Close bittensor connection
+        except Exception as e:
+            logger.error(
+                f"user_id:{context.job.chat_id} - API call failed: {e}",
+                exc_info=True
+            )
+            message += "Failed to connect to tao stats 😓\n\n"
+
+        else:
+            message += subnets_info_text
     
     await update.message.reply_text(message, parse_mode="HTML")
     return await show_commands(update, context)

@@ -21,30 +21,9 @@ def valid_netuids_check(text: str) -> list[int]:
 
     return valid_subnets, invalid_subnets
 
+def get_subnets_info(netuids: list[int]):
+    '''Returns list of the subnet info from taostats'''
 
-class GetNetuidInfoObj:
-    def __init__(self):
-        # Create bittensor connection
-        url = "https://api.taostats.io/api/dtao/pool/latest/v1?page=1"
-        headers = {
-            "accept": "application/json",
-            "Authorization": TAO_STATS_API_KEY
-        }
-
-        response = requests.get(url, headers=headers)
-        self.info = response.json()['data']
-
-    def get_netuid_info(self, netuid: int):
-        # Fetches subnet object containing subnet info
-        for info in self.info:
-            if info['netuid'] == netuid:
-                return info['name'], info['price']
-    
-    def close(self):
-        pass
-
-
-def get_netuid_prices(netuids: list[int]):
     # Impliment caching and time logic to not go over api limit
 
     url = "https://api.taostats.io/api/dtao/pool/latest/v1?page=1"
@@ -56,13 +35,21 @@ def get_netuid_prices(netuids: list[int]):
     response = requests.get(url, headers=headers)
     data = response.json()['data']
 
-    # Lambda function? for efficiently itereating through data grabbing where data['netuid']
-    # is in set(netuids)
-
-    info = []
-
+    netuids_set = set(netuids)
+    subnets_info = list()
     for subnet in data:
-        if subnet['netuid'] in set(netuids):
-            info.append((subnet['netuid'], subnet['name'], subnet['price']))
+        if subnet['netuid'] in netuids_set:
+            subnets_info.append(subnet)
 
-    return info
+    return subnets_info
+
+
+def get_subnets_info_text(netuids: list[int]):
+    subnets_info = get_subnets_info(netuids)
+
+    # Format info into body of text
+    info_text = str()
+    for info in subnets_info:
+        info_text += f"({info['netuid']}) {info['name']}: {info['price']}\n"
+
+    return info_text

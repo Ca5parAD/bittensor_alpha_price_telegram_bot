@@ -3,7 +3,7 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from taostats_calls import get_netuid_prices
+from taostats_calls import get_subnets_info_text
 
 
 logger = logging.getLogger(__name__)
@@ -46,12 +46,14 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     message = "<b>Subnet Price Update</b> 📈\n" # Start message
     netuids = context.job.data.get('notification_netuids', [])
+
+    # Get rid of this handling, replace with check at notification enable
     if not netuids:
         message += "No subnets selected 📌.\n"
         logger.debug(f"user_id:{context.job.chat_id} - No subnets selected")
     else:
         try:
-            get_netuid_prices(netuids)
+            subnets_info_text = get_subnets_info_text(netuids)
 
         except Exception as e:
             logger.error(
@@ -59,6 +61,9 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
                 exc_info=True
             )
             message += "Failed to connect to tao stats 😓\n\n"
+
+        else:
+            message += subnets_info_text
 
     message += "\n ℹ️ /show_commands" # Finish message with show commands prompt
     try:
