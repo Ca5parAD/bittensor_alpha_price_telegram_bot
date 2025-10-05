@@ -20,7 +20,7 @@ async def query_netuid_price(update: Update, context: ContextTypes.DEFAULT_TYPE)
     return ENTER_ALPHA_PRICE
 
 async def process_netuid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    logger.info(f"user_id:{update.effective_user.id} - store subnets")
+    logger.info(f"user_id:{update.effective_user.id} - process netuid")
     text = update.message.text.strip() # Store user input
     logger.debug(f"user_id:{update.effective_user.id} - user input: {text}")
 

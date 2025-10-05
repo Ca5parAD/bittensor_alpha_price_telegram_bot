@@ -27,5 +27,11 @@ def setup_root_logger() -> None:
     stream_handler.setFormatter(logging.Formatter("%(name)s - %(levelname)s - %(message)s"))
     root_logger.addHandler(stream_handler)
 
-    # Explicitly set levels for our modules
+    # Explicitly set levels for program modules
     logging.getLogger('simple_commands').setLevel(logging.INFO)
+
+    # Suppress API loggers
+    logging.getLogger('httpcore.http11').setLevel(logging.WARNING)
+    logging.getLogger('httpx').setLevel(logging.WARNING)
+    logging.getLogger('telegram.ext').setLevel(logging.WARNING)
+    logging.getLogger('apscheduler').setLevel(logging.WARNING)
