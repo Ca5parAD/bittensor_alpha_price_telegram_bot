@@ -19,7 +19,7 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     logger.info(f"user_id:{update.effective_user.id} - settings command")
     # Obtain and store user settings
     notification_status = "🔔 On" if context.user_data.get('send_notifications_flag', False) else "🔕 Off"
-    subnets = context.user_data.get('notification_netuids', [])
+    subnets = context.user_data.get('notification_subnets', [])
     frequency = context.user_data.get('notification_frequency', 'Not set')
     if not frequency % 1: # Store frequency as int if possible
         frequency = int(frequency)
@@ -55,16 +55,16 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     logger.debug(f"user_id:{update.effective_user.id} - user input: {text}")
 
     try: # Check validity of user response
-        valid_netuids, invalid_netuids = valid_netuids_check(text)
+        valid_subnets, invalid_netuids = valid_netuids_check(text)
 
     except ValueError as e: # Does this need to specify ValueError? ********** # Show user message if invalid text
         logger.debug(f"user_id:{update.effective_user.id} - invalid input: {text} - {str(e)}")
-        await update.message.reply_text(INVALID_PROCESS_NETUID, parse_mode="HTML")
+        await update.message.reply_text(INVALID_PROCESS_NETUIDS, parse_mode="HTML")
         return ENTER_ALPHA_PRICE  # Stay in state for retry
 
     else:
-        context.user_data['notification_netuids'] = valid_netuids
-        logger.debug(f"user_id:{update.effective_user.id} - storing netuids: {valid_netuids}")
+        context.user_data['notification_subnets'] = valid_subnets
+        logger.debug(f"user_id:{update.effective_user.id} - storing subnets: {valid_subnets}")
         # Show user message for invalid subnets
         if invalid_netuids:
             invalid_netuids_message = "⚠️ Invalid subnet(s):\n"

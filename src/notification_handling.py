@@ -44,16 +44,15 @@ async def set_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
-    message = "<b>Subnet Price Update</b> 📈\n" # Start message
-    netuids = context.job.data.get('notification_netuids', [])
+    message = "<b>Alpha Price Update</b> 📈\n" # Start message
+    subnets = context.job.data.get('notification_subnets', [])
 
-    # Get rid of this handling, replace with check at notification enable
-    if not netuids:
-        message += "No subnets selected 📌.\n"
+    if not subnets:
+        message += "No subnets selected ❌.\n"
         logger.debug(f"user_id:{context.job.chat_id} - No subnets selected")
     else:
         try:
-            subnets_info_text = get_subnets_info_text(netuids)
+            subnets_info_text = get_subnets_info_text(subnets)
 
         except Exception as e:
             logger.error(

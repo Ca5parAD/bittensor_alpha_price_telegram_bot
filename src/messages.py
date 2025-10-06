@@ -2,7 +2,7 @@ from typing import Final
 
 # Simple Commands Messages
 START_MESSAGE: Final = (
-    "<b>Welcome to the Bittensor Subnet Bot!</b> 👋"
+    "<b>Welcome to Bittensor Alpha Price Bot!</b> 👋"
 )
 
 SHOW_COMMANDS_MESSAGE: Final = (
@@ -12,7 +12,7 @@ SHOW_COMMANDS_MESSAGE: Final = (
 )
 
 HELP_MESSAGE: Final = (
-    "<b>Bittensor Subnet Bot Help Menu</b> 🆘\n\n"
+    "<b>Bittensor Alpha Price Bot Help Menu</b> 🆘\n\n"
     "• /alpha_prices: Check alpha prices for subnets (0-128) 📈\n\n"
     "• /settings: Customize notifications ⚙️\n"
     "   - /enable_disable: Toggle alerts on/off 🔔/🔕\n"
@@ -27,14 +27,14 @@ HELP_MESSAGE: Final = (
 # Query Alpha Prices Messages
 ALPHA_PRICE_MESSAGE: Final = (
     "<b>Check Subnet Alpha Prices</b> 📈\n\n"
-    "Enter the netuid(s) you want:\n"
+    "Enter the subnet(s) you want:\n"
     "• Single: e.g. '19' 🔢\n"
     "• Multiple: e.g. '19,56,64' 📋\n\n"
     "• /my_sns: See your tracked subnets 📌\n\n"
     "• /back: Return to main menu ↩️"
 )
 
-INVALID_PROCESS_NETUID: Final = (
+INVALID_PROCESS_NETUIDS: Final = (
     "<b>Invalid Input</b> ❌\n\n"
     "Please enter numbers 0-128 separated by commas - e.g. '19, 56, 64'\n\n"
     "Use /back to go back ↩️\n"
@@ -50,7 +50,7 @@ SETTINGS_COMMANDS_MESSAGE: Final = (
 
 SELECT_SUBNETS_MESSAGE: Final = (
     "<b>Select Subnets to Track</b> 📌\n\n"
-    "Enter netuids separated by commas - e.g. '19,56,64' 🔢.\n\n"
+    "Enter subnets separated by commas - e.g. '19,56,64' 🔢.\n\n"
     "/back: Back to settings ↩️"
 )
 

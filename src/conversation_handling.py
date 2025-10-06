@@ -1,14 +1,14 @@
 from telegram.ext import ConversationHandler, CommandHandler
 
 from simple_commands import *
-from query_alpha_prices import query_netuid_price, enter_alpha_price_commands
+from query_alpha_prices import query_subnet_price, enter_alpha_price_commands
 from settings import *
 from utils import *
 
 
 # Specific commands valid from select command state
 select_command_commands = [
-    CommandHandler("alpha_prices", query_netuid_price),
+    CommandHandler("alpha_prices", query_subnet_price),
     CommandHandler("settings", settings_command)
 ]
 

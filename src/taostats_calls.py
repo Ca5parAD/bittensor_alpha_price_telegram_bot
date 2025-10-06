@@ -7,25 +7,25 @@ from config import TAO_STATS_API_KEY
 def valid_netuids_check(text: str) -> list[int]:
     try:
         # Creates list of numbers if valid response format (numbers seperated by ',')
-        subnets = [int(num.strip()) for num in text.split(',') if num.strip()]
+        netuids = [int(num.strip()) for num in text.split(',') if num.strip()]
     except Exception:
         return
 
-    valid_subnets = []
-    invalid_subnets = []
-    for num in subnets: # Create lists of valid and invalid netuids
+    valid_netuids = []
+    invalid_netuids = []
+    for num in netuids: # Create lists of valid and invalid netuids
         if 0 <= num <= 128:
-            valid_subnets.append(num)
+            valid_netuids.append(num)
         else:
-            invalid_subnets.append(num)
+            invalid_netuids.append(num)
 
-    return valid_subnets, invalid_subnets
+    return valid_netuids, invalid_netuids
 
 
 def get_subnets_info(netuids: list[int]):
-    '''Returns dict of netuid key and subnet info value from taostats'''
+    '''Returns dict of netuid key and value of subnet info from taostats'''
 
-    # Impliment caching and time logic to not go over api limit
+    # TODO: Impliment caching and time logic to not go over api limit
 
     url = "https://api.taostats.io/api/dtao/pool/latest/v1?page=1"
     headers = {
