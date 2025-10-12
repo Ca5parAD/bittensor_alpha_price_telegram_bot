@@ -8,6 +8,7 @@ from messages import *
 from simple_commands import show_commands
 from taostats_calls import valid_netuids_check
 from notification_handling import set_notifications
+from data_persistance import update_database_user_settings
 from debugging import *
 
 
@@ -40,8 +41,25 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     logger.info(f"user_id:{update.effective_user.id} - enable/disable")
     context.user_data['send_notifications_flag'] = not context.user_data['send_notifications_flag']
 
-    await set_notifications(update, context)
+
+
+    # Update database for user settings
+    try:
+        update_database_user_settings(update.effective_user.id, context.user_data)
+    except:
+        logger.info("fail 1")
+
+    try:
+        await set_notifications(update.effective_user.id, context.user_data)
+    except Exception:
+        await update.message.reply_text("Failed to set notifications, please try again later")
     return await settings_command(update, context)
+
+
+
+
+
+
 
 # Prompt user to input subnets
 async def select_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -63,8 +81,18 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         return ENTER_ALPHA_PRICE  # Stay in state for retry
 
     else:
+
         context.user_data['notification_subnets'] = valid_subnets
         logger.debug(f"user_id:{update.effective_user.id} - storing subnets: {valid_subnets}")
+
+        # Update database for user settings
+        try:
+            update_database_user_settings(update.effective_user.id, context.user_data)
+        except:
+            logger.info("fail 2")
+
+
+
         # Show user message for invalid subnets
         if invalid_netuids:
             invalid_netuids_message = "⚠️ Invalid subnet(s):\n"
@@ -88,9 +116,28 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
     # Set hour user frequency to mapping of input
     freq_map = {'/1hr': 1, '/4hrs': 4, '/12hrs': 12, '/1D': 24}
     context.user_data['notification_frequency'] = freq_map[text]
-    await set_notifications(update, context)
-    return await settings_command(update, context)
 
+
+
+    # Update database for user settings
+    try:
+        update_database_user_settings(update.effective_user.id, context.user_data)
+    except:
+        logger.info("fail 3")
+
+
+
+
+    
+    try:
+        await set_notifications(update.effective_user.id, context.user_data)
+    except Exception as e:
+        logger.error(
+            f"user_id:{update.effective_user.id} - Failed to create notification job: {e}",
+            exc_info=True
+        )
+        await update.message.reply_text("Failed to set notifications, please try again later")
+    return await settings_command(update, context)
 
 # Prompt user to input custom notification frequency
 async def custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -111,9 +158,30 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
         return ENTER_SUBNETS  # Stay in state for retry
 
     else:
+
+
         context.user_data['notification_frequency'] = interval
         logger.info(f"user_id:{update.effective_user.id} - set notification frequency to {interval}")
-        await set_notifications(update, context)
+
+
+
+        # Update database for user settings
+        try:
+            update_database_user_settings(update.effective_user.id, context.user_data)
+        except:
+            logger.info("fail 4")
+
+
+
+        
+        try:
+            await set_notifications(update.effective_user.id, context.user_data)
+        except Exception as e:
+            logger.error(
+                f"user_id:{update.effective_user.id} - Failed to create notification job: {e}",
+                exc_info=True
+            )
+            await update.message.reply_text("Failed to set notifications, please try again later")
         return await settings_command(update, context)
 
 # Functions to go back in conversation

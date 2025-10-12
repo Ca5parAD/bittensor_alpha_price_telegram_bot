@@ -1,7 +1,6 @@
 import logging
 
-from telegram import Update
-from telegram.ext import Application, ContextTypes
+from telegram.ext import Application
 
 from config import TOKEN
 
@@ -14,17 +13,3 @@ logger.setLevel(logging.INFO)
 
 # Build bot
 app = Application.builder().token(TOKEN).build() 
-
-
-# Populates and sets users notification setings to default
-def setup_settings(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Clean up notification job if it still exists
-    if context.user_data.get('notification_job'):
-        context.user_data['notification_job'].schedule_removal()
-        del context.user_data['notification_job']
-        
-    context.user_data['send_notifications_flag'] = False
-    context.user_data['notification_subnets'] = []
-    context.user_data['notification_frequency'] = 24
-
-    logger.info(f"user_id:{update.effective_user.id} - settings set to default")

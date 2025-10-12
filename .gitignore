@@ -16,5 +16,8 @@ Logs/
 # Ignores changes to config file
 config.py
 
+# Ignores database file
+*.db
+
 # Ignores DS Store
 .DS_Store
