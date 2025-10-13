@@ -1,6 +1,6 @@
 import aiosqlite
 import json
-from typing import Dict, Union
+from typing import Union, Dict
 
 from config import DATABASE_FILE
 from notification_handling import set_notifications
@@ -43,7 +43,7 @@ async def initialise_from_database():
 
     
 
-async def search_database_for_user(user_id) -> Union[Dict, False]: # Union for Amazon Linux
+async def search_database_for_user(user_id) -> Union[Dict, bool]: # Union for Amazon Linux
     """Search database for user_id key, return dict of settings or false if doesn't exist"""
 
     async with aiosqlite.connect(DATABASE_FILE) as conn:
