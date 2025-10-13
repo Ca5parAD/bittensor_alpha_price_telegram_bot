@@ -14,16 +14,17 @@ logger.setLevel(logging.INFO)
 
 async def main():
     logger.info("program started")
+    # Initialize database first
     await initialise_from_database()
     
+    # Set up handlers
     app.add_handler(conversation_flow)
-    app.add_handler(outside_conversation_handler) # Catches commands outside of conversation flow
+    app.add_handler(outside_conversation_handler)
     app.add_error_handler(error)
     
-    # Starts program polling
-    await app.initialize()
-    await app.updater.start_polling()
-    await app.updater.idle()
+    # Start the bot using built-in runner which handles event loop correctly
+    await app.run_polling()
 
 if __name__ == '__main__':
+    # This runs everything in a single event loop
     asyncio.run(main())
