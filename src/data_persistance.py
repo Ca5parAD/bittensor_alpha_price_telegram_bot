@@ -1,6 +1,7 @@
 import sqlite3
 import json
 from typing import Dict
+import asyncio
 
 from config import DATABASE_FILE
 from notification_handling import set_notifications
@@ -8,7 +9,7 @@ from notification_handling import set_notifications
 # TODO add logging to module
 
 # Create database if does not exist
-async def initialise_from_database():
+def initialise_from_database():
     """Initialize the database and restore notification settings for existing users."""
     with sqlite3.connect(DATABASE_FILE) as conn:
         cursor = conn.cursor()
@@ -33,7 +34,7 @@ async def initialise_from_database():
                     'notification_frequency': frequency
                 }
 
-                await set_notifications(user_id, user_data)
+                asyncio.run(set_notifications(user_id, user_data))
         conn.commit()
 
 

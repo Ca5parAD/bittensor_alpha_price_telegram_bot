@@ -13,11 +13,8 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 if __name__ == '__main__':
-    async def database_setup():
-        await initialise_from_database()
-        
     logger.info("program started")
-    asyncio.run(database_setup())
+    initialise_from_database()
 
     app.add_handler(conversation_flow)
     app.add_handler(outside_conversation_handler) # Catches commands outside of conversation flow
