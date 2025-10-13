@@ -12,16 +12,18 @@ setup_root_logger()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-if __name__ == '__main__':
-    async def database_setup():
-        await initialise_from_database()
-        
+async def main():
     logger.info("program started")
-    asyncio.run(database_setup())
-
+    await initialise_from_database()
+    
     app.add_handler(conversation_flow)
     app.add_handler(outside_conversation_handler) # Catches commands outside of conversation flow
     app.add_error_handler(error)
-
+    
     # Starts program polling
-    app.run_polling()
+    await app.initialize()
+    await app.updater.start_polling()
+    await app.updater.idle()
+
+if __name__ == '__main__':
+    asyncio.run(main())
