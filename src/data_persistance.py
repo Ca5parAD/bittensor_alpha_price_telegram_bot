@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from typing import Dict
+from typing import Union, Dict
 import asyncio
 
 from config import DATABASE_FILE
@@ -41,7 +41,7 @@ def initialise_from_database():
 
     
 
-def search_database_for_user(user_id) -> Dict|False:
+def search_database_for_user(user_id) -> Union[Dict,bool]:
     """Search database for user_id key, return dict of settings or false if doesn't exist"""
 
     with sqlite3.connect(DATABASE_FILE) as conn:
