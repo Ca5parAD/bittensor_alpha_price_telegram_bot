@@ -15,25 +15,7 @@ notification_jobs: Dict[int, Job] = dict()
 
 
 # Doesnt need update and context as args, change these
-# Use user_data instead context, therefore directly accessible and can be replicated from database function
 async def set_notifications(user_id: int, user_data: Dict) -> bool:
-
-
-
-
-
-
-
-    # Check this function - issue is the creating and storing notification job
-    # i think it creates job fine, its the deleting previous and creating new that is an issue
-    # seems odd as its the same as previous method except in dict not context.user_data
-
-
-
-
-
-
-
 
 
     # Clean up previous notification job

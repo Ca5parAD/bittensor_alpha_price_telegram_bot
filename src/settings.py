@@ -87,7 +87,7 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 
         # Update database for user settings
         try:
-            update_database_user_settings(update.effective_user.id, context.user_data)
+            await update_database_user_settings(update.effective_user.id, context.user_data)
         except:
             logger.info("fail 2")
 

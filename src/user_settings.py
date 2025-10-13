@@ -12,9 +12,9 @@ logger.setLevel(logging.INFO)
 
 
 # Populates and sets users notification setings to default
-def setup_settings(user_id: int, user_data: Dict) -> None:
+async def setup_settings(user_id: int, user_data: Dict) -> None:
     # Search database for user, if exists get settings
-    database_user_data = search_database_for_user(user_id)
+    database_user_data = await search_database_for_user(user_id)
 
     if database_user_data:
         # shouldnt be needed, nothing in there yet: user_data.clear()  # Clear existing data
@@ -26,6 +26,6 @@ def setup_settings(user_id: int, user_data: Dict) -> None:
         user_data['notification_subnets'] = []
         user_data['notification_frequency'] = 24
 
-        update_database_user_settings(user_id, user_data)
+        await update_database_user_settings(user_id, user_data)
 
         logger.info(f"user_id:{user_id} - settings set to default")
