@@ -12,9 +12,9 @@ setup_root_logger()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-if __name__ == '__main__':
+async def main():
     logger.info("program started")
-    initialise_from_database()
+    await initialise_from_database()
 
     app.add_handler(conversation_flow)
     app.add_handler(outside_conversation_handler) # Catches commands outside of conversation flow
@@ -22,3 +22,6 @@ if __name__ == '__main__':
 
     # Starts program polling
     app.run_polling()
+
+if __name__ == "__main__":
+    asyncio.run(main())
