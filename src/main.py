@@ -12,7 +12,7 @@ setup_root_logger()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-if __name__ == "__main__"
+if __name__ == "__main__":
     logger.info("program started")
     asyncio.get_event_loop().run_until_complete(initialise_from_database())
     app.add_handler(conversation_flow)
