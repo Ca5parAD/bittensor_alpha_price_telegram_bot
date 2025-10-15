@@ -12,19 +12,12 @@ setup_root_logger()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-async def main():
+if __name__ == "__main__":
     logger.info("program started")
-    # Initialize database first
-    await initialise_from_database()
-    
-    # Set up handlers
+    asyncio.get_event_loop().run_until_complete(initialise_from_database())
     app.add_handler(conversation_flow)
     app.add_handler(outside_conversation_handler)
     app.add_error_handler(error)
     
     # Start the bot using built-in runner which handles event loop correctly
-    await app.run_polling()
-
-if __name__ == '__main__':
-    # This runs everything in a single event loop
-    asyncio.run(main())
+    app.run_polling()
