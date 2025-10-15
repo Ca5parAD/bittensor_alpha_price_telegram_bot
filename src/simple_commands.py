@@ -15,7 +15,7 @@ logger.setLevel(logging.INFO)
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Bolts on setup and welcome message to show_commands"""
     logger.info(f"user_id:{update.effective_user.id} - start command")
-    await setup_settings(update.effective_user.id, context.user_data)
+    setup_settings(update.effective_user.id, context.user_data)
     await update.message.reply_text(START_MESSAGE, parse_mode="HTML")
     return await show_commands(update, context)
 

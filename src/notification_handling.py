@@ -14,7 +14,7 @@ logger.setLevel(logging.INFO)
 notification_jobs: Dict[int, Job] = dict()
 
 
-async def set_notifications(user_id: int, user_data: Dict) -> bool:
+def set_notifications(user_id: int, user_data: Dict) -> bool:
     """Deletes previous notification job and creates new one"""
     # Delete and cleans up previous notification job
     if user_id in notification_jobs:

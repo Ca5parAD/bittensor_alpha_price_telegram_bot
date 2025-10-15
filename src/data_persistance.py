@@ -8,7 +8,7 @@ from notification_handling import set_notifications
 
 # TODO add logging to module
 
-async def initialise_from_database():
+def initialise_from_database():
     """Initialise database and restore notification settings for existing users"""
     with sqlite3.connect(DATABASE_FILE) as conn:
         cursor = conn.cursor()
@@ -33,7 +33,7 @@ async def initialise_from_database():
                     'notification_frequency': frequency
                 }
 
-                await set_notifications(user_id, user_data)
+                set_notifications(user_id, user_data)
         conn.commit()
 
 

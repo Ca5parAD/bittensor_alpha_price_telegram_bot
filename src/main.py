@@ -17,9 +17,7 @@ if __name__ == "__main__":
     logger.info("program started")
     
     # Setup
-    asyncio.get_event_loop().run_until_complete( # Fix for event loop on AWS
-        initialise_from_database()
-        )
+    initialise_from_database()
     app.add_handler(conversation_flow)
     app.add_handler(outside_conversation_handler)
     app.add_error_handler(error)

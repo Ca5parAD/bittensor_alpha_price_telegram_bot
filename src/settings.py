@@ -48,7 +48,7 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         logger.info("fail 1")
 
     try:
-        await set_notifications(update.effective_user.id, context.user_data)
+        set_notifications(update.effective_user.id, context.user_data)
     except Exception:
         await update.message.reply_text("Failed to set notifications, please try again later")
     return await settings_command(update, context)
@@ -80,7 +80,7 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         logger.debug(f"user_id:{update.effective_user.id} - storing subnets: {valid_subnets}")
 
         try:
-            await update_database_user_settings(update.effective_user.id, context.user_data)
+            update_database_user_settings(update.effective_user.id, context.user_data)
         except:
             logger.info("fail 2") # TODO fix logging message
 
@@ -114,7 +114,7 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
         logger.info("fail 3") # TODO fix logging message
     
     try:
-        await set_notifications(update.effective_user.id, context.user_data)
+        set_notifications(update.effective_user.id, context.user_data)
     except Exception as e:
         logger.error(
             f"user_id:{update.effective_user.id} - Failed to create notification job: {e}",
@@ -152,7 +152,7 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
             logger.info("fail 4") # TODO fix logging message
 
         try:
-            await set_notifications(update.effective_user.id, context.user_data)
+            set_notifications(update.effective_user.id, context.user_data)
         except Exception as e:
             logger.error(
                 f"user_id:{update.effective_user.id} - Failed to create notification job: {e}",
