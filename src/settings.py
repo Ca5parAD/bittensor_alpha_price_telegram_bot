@@ -17,6 +17,7 @@ logger.setLevel(logging.INFO)
 
 
 async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Prints current user settings and prompts to select which setting to change"""
     logger.info(f"user_id:{update.effective_user.id} - settings command")
     # Obtain and store user settings
     notification_status = "🔔 On" if context.user_data.get('send_notifications_flag', False) else "🔕 Off"
@@ -36,17 +37,14 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     await update.message.reply_text(SETTINGS_COMMANDS_MESSAGE, parse_mode="HTML")
     return SELECT_SETTING
 
-# Toggles send notification flag
 async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Toggles on/off notificaitions"""
     logger.info(f"user_id:{update.effective_user.id} - enable/disable")
     context.user_data['send_notifications_flag'] = not context.user_data['send_notifications_flag']
 
-
-
-    # Update database for user settings
-    try:
+    try: # Update database for user settings
         update_database_user_settings(update.effective_user.id, context.user_data)
-    except:
+    except: # TODO fix logging message
         logger.info("fail 1")
 
     try:
@@ -56,45 +54,37 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     return await settings_command(update, context)
 
 
-
-
-
-
-
-# Prompt user to input subnets
 async def select_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Prompt user to input subnets"""
     logger.info(f"user_id:{update.effective_user.id} - select subnets")
     await update.message.reply_text(SELECT_SUBNETS_MESSAGE, parse_mode="HTML")
     return ENTER_SUBNETS
 
 async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Processes text and stores netuids"""
     logger.info(f"user_id:{update.effective_user.id} - store subnets")
     text = update.message.text.strip() # Store user response
     logger.debug(f"user_id:{update.effective_user.id} - user input: {text}")
 
-    try: # Check validity of user response
+    try: # Check validity of netuids seleted
         valid_subnets, invalid_netuids = valid_netuids_check(text)
 
-    except ValueError as e: # Does this need to specify ValueError? ********** # Show user message if invalid text
+    # TODO Does this need to specify ValueError?
+    except ValueError as e: # Show user message if invalid text
         logger.debug(f"user_id:{update.effective_user.id} - invalid input: {text} - {str(e)}")
         await update.message.reply_text(INVALID_PROCESS_NETUIDS, parse_mode="HTML")
-        return ENTER_ALPHA_PRICE  # Stay in state for retry
+        return ENTER_ALPHA_PRICE # Stay in state for retry
 
     else:
-
         context.user_data['notification_subnets'] = valid_subnets
         logger.debug(f"user_id:{update.effective_user.id} - storing subnets: {valid_subnets}")
 
-        # Update database for user settings
         try:
             await update_database_user_settings(update.effective_user.id, context.user_data)
         except:
-            logger.info("fail 2")
+            logger.info("fail 2") # TODO fix logging message
 
-
-
-        # Show user message for invalid subnets
-        if invalid_netuids:
+        if invalid_netuids: # Show user message for invalid subnets
             invalid_netuids_message = "⚠️ Invalid subnet(s):\n"
             for netuid in invalid_netuids:
                 invalid_netuids_message += f"{netuid}\n"
@@ -103,31 +93,25 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         return await settings_command(update, context)
 
 
-# Prompt user to select notification frequency
 async def select_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Prompt user to select notification frequency"""
     logger.info(f"user_id:{update.effective_user.id} - select notification frequency")
     await update.message.reply_text(SELECT_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return SELECT_NOTIF_FREQ
 
 async def store_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Set notification frequency selected by user"""
     logger.info(f"user_id:{update.effective_user.id} - store Notification Frequency")
     text = update.message.text # Store user response
 
-    # Set hour user frequency to mapping of input
+    # Command and hour int mapping of input
     freq_map = {'/1hr': 1, '/4hrs': 4, '/12hrs': 12, '/1D': 24}
     context.user_data['notification_frequency'] = freq_map[text]
 
-
-
-    # Update database for user settings
     try:
         update_database_user_settings(update.effective_user.id, context.user_data)
     except:
-        logger.info("fail 3")
-
-
-
-
+        logger.info("fail 3") # TODO fix logging message
     
     try:
         await set_notifications(update.effective_user.id, context.user_data)
@@ -139,13 +123,14 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
         await update.message.reply_text("Failed to set notifications, please try again later")
     return await settings_command(update, context)
 
-# Prompt user to input custom notification frequency
 async def custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Prompt user to input custom notification frequency"""
     logger.info(f"user_id:{update.effective_user.id} - custom notification frequency")
     await update.message.reply_text(CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return CUSTOM_NOTIF_FREQ
 
 async def store_custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Process and set custom notification frequency"""
     logger.info(f"user_id:{update.effective_user.id} - store custom notification frequency")
     text = update.message.text.strip() # Store user response
 
@@ -158,22 +143,14 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
         return ENTER_SUBNETS  # Stay in state for retry
 
     else:
-
-
         context.user_data['notification_frequency'] = interval
         logger.info(f"user_id:{update.effective_user.id} - set notification frequency to {interval}")
 
-
-
-        # Update database for user settings
         try:
             update_database_user_settings(update.effective_user.id, context.user_data)
         except:
-            logger.info("fail 4")
+            logger.info("fail 4") # TODO fix logging message
 
-
-
-        
         try:
             await set_notifications(update.effective_user.id, context.user_data)
         except Exception as e:
@@ -186,14 +163,17 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
 
 # Functions to go back in conversation
 async def back_select_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Back to main menu"""
     logger.info(f"user_id:{update.effective_user.id} - back")
     return await show_commands(update, context)
 
 async def back_select_setting(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Back to settings menu"""
     logger.info(f"user_id:{update.effective_user.id} - back")
     return await settings_command(update, context)
 
 async def back_select_notif_freq(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Back to select notification frequency menu"""
     logger.info(f"user_id:{update.effective_user.id} - back")
     return await select_notification_frequency(update, context)
 

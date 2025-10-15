@@ -5,6 +5,7 @@ from config import LOG_FILE_PATH
 
 
 def setup_root_logger() -> None:
+    """Sets up logging for log file and stdio, blocks logging for APIs less then warning"""
     # Configure root logger
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
@@ -27,10 +28,10 @@ def setup_root_logger() -> None:
     stream_handler.setFormatter(logging.Formatter("%(name)s - %(levelname)s - %(message)s"))
     root_logger.addHandler(stream_handler)
 
-    # Explicitly set levels for program modules
+    # Explicitly set level for simple_commands modules
     logging.getLogger('simple_commands').setLevel(logging.INFO)
 
-    # Suppress API loggers
+    # Suppress API loggers below warning
     logging.getLogger('httpcore.http11').setLevel(logging.WARNING)
     logging.getLogger('httpx').setLevel(logging.WARNING)
     logging.getLogger('telegram.ext').setLevel(logging.WARNING)

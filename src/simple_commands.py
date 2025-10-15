@@ -12,21 +12,21 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-# Start command bolts on setup and welcome message to top level directions
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Bolts on setup and welcome message to show_commands"""
     logger.info(f"user_id:{update.effective_user.id} - start command")
     await setup_settings(update.effective_user.id, context.user_data)
     await update.message.reply_text(START_MESSAGE, parse_mode="HTML")
     return await show_commands(update, context)
 
-# Shows user top level directions
 async def show_commands(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Shows user top level directions"""
     logger.info(f"user_id:{update.effective_user.id} - show commands")
     await update.message.reply_text(SHOW_COMMANDS_MESSAGE, parse_mode="HTML")
     return SELECT_COMMAND
 
-# Gives full program commands
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Shows user full program commands"""
     logger.info(f"user_id:{update.effective_user.id} - help command")
     await update.message.reply_text(HELP_MESSAGE, parse_mode="HTML")
     return HELP
@@ -39,8 +39,8 @@ async def unknown_message(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     logger.info(f"user_id:{update.effective_user.id} - unknown message")
     await update.message.reply_text(UNKNOWN_MESSAGE, parse_mode="HTML")
 
-# Unrecognised message outside of conversation flow
 async def outside_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Unrecognised message outside of conversation flow"""
     logger.info(f"user_id:{update.effective_user.id} - outside conversation")
     await update.message.reply_text(OUTSIDE_CONVERSATION_MESSAGE, parse_mode="HTML")
 

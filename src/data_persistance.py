@@ -8,9 +8,8 @@ from notification_handling import set_notifications
 
 # TODO add logging to module
 
-# Create database if does not exist
 async def initialise_from_database():
-    """Initialise the database and restore notification settings for existing users."""
+    """Initialise database and restore notification settings for existing users"""
     with sqlite3.connect(DATABASE_FILE) as conn:
         cursor = conn.cursor()
         cursor.execute('''
@@ -38,12 +37,8 @@ async def initialise_from_database():
         conn.commit()
 
 
-
-    
-
 def search_database_for_user(user_id) -> Union[Dict,bool]:
-    """Search database for user_id key, return dict of settings or false if doesn't exist"""
-
+    """Search database for user_id key, if exists returns dict of settings, else returns false"""
     with sqlite3.connect(DATABASE_FILE) as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT enable, subnets, frequency FROM user_settings WHERE user_id = ?', (user_id,))
@@ -60,13 +55,10 @@ def search_database_for_user(user_id) -> Union[Dict,bool]:
             return user_data
         conn.commit()
         return None  # User not found
-        
 
 
-# Update database for user settings
 def update_database_user_settings(user_id, user_data):
-    """Write or update user settings in the database."""
-
+    """Update user settings in database"""
     with sqlite3.connect(DATABASE_FILE) as conn:
         cursor = conn.cursor()
         subnets_json = json.dumps(user_data['notification_subnets']) # Convert list to JSON string
@@ -76,12 +68,3 @@ def update_database_user_settings(user_id, user_data):
             (user_id, user_data['send_notifications_flag'],
             subnets_json, user_data['notification_frequency']))
         conn.commit()
-
-
-
-        """
-        
-        Looks like everything is good now apart from how subnets is being stored, need to check how its
-        stored and accessed 
-        
-        """

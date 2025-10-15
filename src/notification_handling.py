@@ -14,16 +14,13 @@ logger.setLevel(logging.INFO)
 notification_jobs: Dict[int, Job] = dict()
 
 
-# Doesnt need update and context as args, change these
 async def set_notifications(user_id: int, user_data: Dict) -> bool:
-
-
-    # Clean up previous notification job
+    """Deletes previous notification job and creates new one"""
+    # Delete and cleans up previous notification job
     if user_id in notification_jobs:
         notification_jobs[user_id].schedule_removal()
         del notification_jobs[user_id]
         logger.debug(f"user_id:{user_id} - removed notification job")
-
 
     # If user enables notifications, create new notification job
     if user_data['send_notifications_flag']:
@@ -52,40 +49,15 @@ async def set_notifications(user_id: int, user_data: Dict) -> bool:
             return True
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
-    message = "<b>Alpha Price Update</b> 📈\n" # Start message
-
-    # Unsure if a context is being created or need to use data which is being passed?
+    """Formats and sends subnet price notification to user"""
+    message = "<b>Alpha Price Update</b> 📈\n" # Title of message
     subnets = context.job.data.get('notification_subnets', [])
-
-    if not subnets:
+    if not subnets: # If no subnets have been selected
         message += "No subnets selected ❌.\n"
         logger.debug(f"user_id:{context.job.chat_id} - No subnets selected")
     else:
-        try:
+        try: # Creates body of text 
             subnets_info_text = get_subnets_info_text(subnets)
         except Exception as e:
             logger.error(
@@ -97,7 +69,7 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
             message += subnets_info_text
 
     message += "\n ℹ️ /show_commands" # Finish message with show commands prompt
-    try:
+    try: # Sends message to user
         await context.bot.send_message(chat_id=context.job.chat_id, text=message, parse_mode="HTML")
     except Exception as e:
         logger.error(f"user_id:{context.job.chat_id} - notifcation failed to send")

@@ -13,13 +13,14 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-# Prompt user to input or select alpha prices
 async def query_subnet_price(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Prompt user to input or select which alpha prices to query"""
     logger.info(f"user_id:{update.effective_user.id} - query subnet price")
     await update.message.reply_text(ALPHA_PRICE_MESSAGE, parse_mode="HTML")
     return ENTER_ALPHA_PRICE
 
 async def process_netuids(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Process text into netuids and send prices message to user"""
     logger.info(f"user_id:{update.effective_user.id} - process netuid")
     text = update.message.text.strip() # Store user input
     logger.debug(f"user_id:{update.effective_user.id} - user input: {text}")
@@ -58,8 +59,8 @@ async def process_netuids(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         await update.message.reply_text(message, parse_mode="HTML")
         return await show_commands(update, context)
 
-# Print prices of users notification settings
 async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Send prices message of selected subnets to user"""
     logger.info(f"user_id:{update.effective_user.id} - query 'my sns'")
     subnets = context.user_data.get('notification_subnets', [])
     message = "<b>Alpha Prices</b> 📈\n"
@@ -84,6 +85,7 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 
 async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Goes back to main menu"""
     logger.info(f"user_id:{update.effective_user.id} - back")
     return await show_commands(update, context)
 

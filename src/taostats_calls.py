@@ -3,8 +3,8 @@ import requests
 from config import TAO_STATS_API_KEY
 
 
-# Validate each subnet is within range 0-128
 def valid_netuids_check(text: str) -> list[int]:
+    """Validate each subnet is within range 0-128"""
     try:
         # Creates list of numbers if valid response format (numbers seperated by ',')
         netuids = [int(num.strip()) for num in text.split(',') if num.strip()]
@@ -22,11 +22,9 @@ def valid_netuids_check(text: str) -> list[int]:
     return valid_netuids, invalid_netuids
 
 
+# TODO: Impliment caching and time logic to not go over api limit
 def get_subnets_info(netuids: list[int]):
-    '''Returns dict of netuid key and value of subnet info from taostats'''
-
-    # TODO: Impliment caching and time logic to not go over api limit
-
+    '''Returns netuid and subnet info Dict from taostats'''
     url = "https://api.taostats.io/api/dtao/pool/latest/v1?page=1"
     headers = {
         "accept": "application/json",
