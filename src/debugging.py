@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 # Quick command to test notifications
 async def test_notifications(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info("testing notifications")
-    context.user_data['send_notifications_flag'] = True
+    context.user_data['send_notifications'] = True
     context.user_data['notification_subnets'] = [3, 56, 64]
     context.user_data['notification_frequency'] = 0.015
     await set_notifications(update.effective_user.id, context.user_data)

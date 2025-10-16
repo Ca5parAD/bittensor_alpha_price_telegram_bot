@@ -20,7 +20,7 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     """Prints current user settings and prompts to select which setting to change"""
     logger.info(f"user_id:{update.effective_user.id} - settings command")
     # Obtain and store user settings
-    notification_status = "🔔 On" if context.user_data.get('send_notifications_flag', False) else "🔕 Off"
+    notification_status = "🔔 On" if context.user_data.get('send_notifications', False) else "🔕 Off"
     subnets = context.user_data.get('notification_subnets', [])
     frequency = context.user_data.get('notification_frequency', 'Not set')
     if not frequency % 1: # Store frequency as int if possible
@@ -41,7 +41,7 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     """Toggles on/off notificaitions"""
     user_id = update.effective_user.id
     logger.info(f"user_id:{user_id} - enable/disable")
-    context.user_data['send_notifications_flag'] = not context.user_data['send_notifications_flag']
+    context.user_data['send_notifications'] = not context.user_data['send_notifications']
 
     try: # Update database for user settings
         update_database_user_settings(user_id, context.user_data)

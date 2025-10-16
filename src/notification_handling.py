@@ -23,7 +23,7 @@ def set_notifications(user_id: int, user_data: Dict) -> bool:
         logger.debug(f"user_id:{user_id} - removed notification job")
 
     # If user enables notifications, create new notification job
-    if user_data['send_notifications_flag']:
+    if user_data['send_notifications']:
         logger.info(f"user_id:{user_id} - set notifications")
         interval_hours = user_data['notification_frequency']
         interval_seconds = interval_hours * 60 ** 2

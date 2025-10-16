@@ -28,7 +28,7 @@ def initialise_from_database():
             if enable:  # Only recreate if enabled
                 subnets = json.loads(subnets_json) if subnets_json else []
                 user_data = {
-                    'send_notifications_flag': enable,
+                    'send_notifications': enable,
                     'notification_subnets': subnets,
                     'notification_frequency': frequency
                 }
@@ -47,7 +47,7 @@ def search_database_for_user(user_id) -> Union[Dict,bool]:
             enable, subnets_json, frequency = result
             subnets = json.loads(subnets_json) if subnets_json else []
             user_data = {
-                'send_notifications_flag': enable,
+                'send_notifications': enable,
                 'notification_subnets': subnets,
                 'notification_frequency': frequency
             }
@@ -65,6 +65,6 @@ def update_database_user_settings(user_id, user_data):
         cursor.execute(
             '''INSERT OR REPLACE INTO user_settings (user_id, enable, subnets, frequency)
             VALUES (?, ?, ?, ?)''',
-            (user_id, user_data['send_notifications_flag'],
+            (user_id, user_data['send_notifications'],
             subnets_json, user_data['notification_frequency']))
         conn.commit()

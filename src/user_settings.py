@@ -18,7 +18,7 @@ def setup_settings(user_id: int, user_data: Dict) -> None:
         logger.info(f"user_id:{user_id} - user settings found from database")
 
     else: # Default user settings
-        user_data['send_notifications_flag'] = False
+        user_data['send_notifications'] = False
         user_data['notification_subnets'] = []
         user_data['notification_frequency'] = 24
 
