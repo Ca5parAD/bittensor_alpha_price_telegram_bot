@@ -51,17 +51,18 @@ def set_notifications(user_id: int, user_data: Dict) -> bool:
 
 async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     """Formats and sends subnet price notification to user"""
-    message = "<b>Alpha Price Update</b> 📈\n" # Title of message
+    chat_id = context.job.chat_id
     subnets = context.job.data.get('notification_subnets', [])
+    message = "<b>Alpha Price Update</b> 📈\n" # Title of message
     if not subnets: # If no subnets have been selected
         message += "No subnets selected ❌.\n"
-        logger.debug(f"user_id:{context.job.chat_id} - No subnets selected")
+        logger.debug(f"user_id:{chat_id} - No subnets selected")
     else:
         try: # Creates body of text 
             subnets_info_text = get_subnets_info_text(subnets)
         except Exception as e:
             logger.error(
-                f"user_id:{context.job.chat_id} - API call failed: {e}",
+                f"user_id:{chat_id} - API call failed: {e}",
                 exc_info=True
             )
             message += "Failed to connect to tao stats 😓\n\n"
@@ -70,8 +71,8 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
 
     message += "\n ℹ️ /show_commands" # Finish message with show commands prompt
     try: # Sends message to user
-        await context.bot.send_message(chat_id=context.job.chat_id, text=message, parse_mode="HTML")
+        await context.bot.send_message(chat_id=chat_id, text=message, parse_mode="HTML")
     except Exception as e:
-        logger.error(f"user_id:{context.job.chat_id} - notifcation failed to send")
+        logger.error(f"user_id:{chat_id} - notifcation failed to send")
     else:
-        logger.info(f"user_id:{context.job.chat_id} - notifcation sent")
+        logger.info(f"user_id:{chat_id} - notifcation sent")

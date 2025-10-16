@@ -39,16 +39,17 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 
 async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Toggles on/off notificaitions"""
-    logger.info(f"user_id:{update.effective_user.id} - enable/disable")
+    user_id = update.effective_user.id
+    logger.info(f"user_id:{user_id} - enable/disable")
     context.user_data['send_notifications_flag'] = not context.user_data['send_notifications_flag']
 
     try: # Update database for user settings
-        update_database_user_settings(update.effective_user.id, context.user_data)
+        update_database_user_settings(user_id, context.user_data)
     except: # TODO fix logging message
         logger.info("fail 1")
 
     try:
-        set_notifications(update.effective_user.id, context.user_data)
+        set_notifications(user_id, context.user_data)
     except Exception:
         await update.message.reply_text("Failed to set notifications, please try again later")
     return await settings_command(update, context)
@@ -62,25 +63,26 @@ async def select_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Processes text and stores netuids"""
-    logger.info(f"user_id:{update.effective_user.id} - store subnets")
+    user_id = update.effective_user.id
+    logger.info(f"user_id:{user_id} - store subnets")
     text = update.message.text.strip() # Store user response
-    logger.debug(f"user_id:{update.effective_user.id} - user input: {text}")
+    logger.debug(f"user_id:{user_id} - user input: {text}")
 
     try: # Check validity of netuids seleted
         valid_subnets, invalid_netuids = valid_netuids_check(text)
 
     # TODO Does this need to specify ValueError?
     except ValueError as e: # Show user message if invalid text
-        logger.debug(f"user_id:{update.effective_user.id} - invalid input: {text} - {str(e)}")
+        logger.debug(f"user_id:{user_id} - invalid input: {text} - {str(e)}")
         await update.message.reply_text(INVALID_PROCESS_NETUIDS, parse_mode="HTML")
         return ENTER_ALPHA_PRICE # Stay in state for retry
 
     else:
         context.user_data['notification_subnets'] = valid_subnets
-        logger.debug(f"user_id:{update.effective_user.id} - storing subnets: {valid_subnets}")
+        logger.debug(f"user_id:{user_id} - storing subnets: {valid_subnets}")
 
         try:
-            update_database_user_settings(update.effective_user.id, context.user_data)
+            update_database_user_settings(user_id, context.user_data)
         except:
             logger.info("fail 2") # TODO fix logging message
 
@@ -101,7 +103,8 @@ async def select_notification_frequency(update: Update, context: ContextTypes.DE
 
 async def store_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Set notification frequency selected by user"""
-    logger.info(f"user_id:{update.effective_user.id} - store Notification Frequency")
+    user_id = update.effective_user.id
+    logger.info(f"user_id:{user_id} - store Notification Frequency")
     text = update.message.text # Store user response
 
     # Command and hour int mapping of input
@@ -109,15 +112,15 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
     context.user_data['notification_frequency'] = freq_map[text]
 
     try:
-        update_database_user_settings(update.effective_user.id, context.user_data)
+        update_database_user_settings(user_id, context.user_data)
     except:
         logger.info("fail 3") # TODO fix logging message
     
     try:
-        set_notifications(update.effective_user.id, context.user_data)
+        set_notifications(user_id, context.user_data)
     except Exception as e:
         logger.error(
-            f"user_id:{update.effective_user.id} - Failed to create notification job: {e}",
+            f"user_id:{user_id} - Failed to create notification job: {e}",
             exc_info=True
         )
         await update.message.reply_text("Failed to set notifications, please try again later")
@@ -131,31 +134,32 @@ async def custom_notification_frequency(update: Update, context: ContextTypes.DE
 
 async def store_custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Process and set custom notification frequency"""
-    logger.info(f"user_id:{update.effective_user.id} - store custom notification frequency")
+    user_id = update.effective_user.id
+    logger.info(f"user_id:{user_id} - store custom notification frequency")
     text = update.message.text.strip() # Store user response
 
     try:
         interval = float(text)
 
     except ValueError as e:
-        logger.error(f"user_id:{update.effective_user.id} - invalid input: {text} - {str(e)}")
+        logger.error(f"user_id:{user_id} - invalid input: {text} - {str(e)}")
         await update.message.reply_text("Invalid input. Please try again")
         return ENTER_SUBNETS  # Stay in state for retry
 
     else:
         context.user_data['notification_frequency'] = interval
-        logger.info(f"user_id:{update.effective_user.id} - set notification frequency to {interval}")
+        logger.info(f"user_id:{user_id} - set notification frequency to {interval}")
 
         try:
-            update_database_user_settings(update.effective_user.id, context.user_data)
+            update_database_user_settings(user_id, context.user_data)
         except:
             logger.info("fail 4") # TODO fix logging message
 
         try:
-            set_notifications(update.effective_user.id, context.user_data)
+            set_notifications(user_id, context.user_data)
         except Exception as e:
             logger.error(
-                f"user_id:{update.effective_user.id} - Failed to create notification job: {e}",
+                f"user_id:{user_id} - Failed to create notification job: {e}",
                 exc_info=True
             )
             await update.message.reply_text("Failed to set notifications, please try again later")
