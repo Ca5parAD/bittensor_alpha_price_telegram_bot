@@ -2,7 +2,7 @@ import logging
 
 from telegram.ext import Application
 
-from config import TOKEN
+from config import TELEGRAM_BOT_TOKEN
 
 
 # Different states in conversation flow
@@ -12,4 +12,4 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # Build bot
-app = Application.builder().token(TOKEN).build() 
+app = Application.builder().token(TELEGRAM_BOT_TOKEN).build() 
