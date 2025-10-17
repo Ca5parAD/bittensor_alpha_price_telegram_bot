@@ -41,12 +41,7 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     user_id = update.effective_user.id
     logger.info(f"user_id:{user_id} - enable/disable")
     context.user_data['send_notifications'] = not context.user_data['send_notifications']
-
-    try: # Update database for user settings
-        update_database_user_settings(user_id, context.user_data)
-    except: # TODO fix logging message
-        logger.error(f"user_id:{user_id} - enable/disable")
-
+    update_database_user_settings(user_id, context.user_data)
     try:
         set_notifications(user_id, context.user_data)
     except Exception:
@@ -79,12 +74,7 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     else:
         context.user_data['notification_subnets'] = valid_subnets
         logger.debug(f"user_id:{user_id} - storing subnets: {valid_subnets}")
-
-        try:
-            update_database_user_settings(user_id, context.user_data)
-        except:
-            logger.info("fail 2") # TODO fix logging message
-
+        update_database_user_settings(user_id, context.user_data)
         if invalid_netuids: # Show user message for invalid subnets
             invalid_netuids_message = "⚠️ Invalid subnet(s):\n"
             for netuid in invalid_netuids:
@@ -110,11 +100,7 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
     freq_map = {'/1hr': 1, '/4hrs': 4, '/12hrs': 12, '/1D': 24}
     context.user_data['notification_frequency'] = freq_map[text]
 
-    try:
-        update_database_user_settings(user_id, context.user_data)
-    except:
-        logger.info("fail 3") # TODO fix logging message
-    
+    update_database_user_settings(user_id, context.user_data)
     try:
         set_notifications(user_id, context.user_data)
     except Exception as e:
@@ -148,12 +134,7 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
     else:
         context.user_data['notification_frequency'] = interval
         logger.info(f"user_id:{user_id} - set notification frequency to {interval}")
-
-        try:
-            update_database_user_settings(user_id, context.user_data)
-        except:
-            logger.info("fail 4") # TODO fix logging message
-
+        update_database_user_settings(user_id, context.user_data)
         try:
             set_notifications(user_id, context.user_data)
         except Exception as e:
