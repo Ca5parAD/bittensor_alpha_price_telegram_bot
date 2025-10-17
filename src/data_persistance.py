@@ -6,7 +6,6 @@ import logging
 from config import DATABASE_FILE
 from notification_handling import set_notifications
 
-# TODO add logging to module
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
