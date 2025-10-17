@@ -65,7 +65,6 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     try: # Check validity of netuids seleted
         valid_subnets, invalid_netuids = valid_netuids_check(text)
 
-    # TODO Does this need to specify ValueError?
     except ValueError as e: # Show user message if invalid text
         logger.debug(f"user_id:{user_id} - invalid input: {text} - {str(e)}")
         await update.message.reply_text(INVALID_PROCESS_NETUIDS, parse_mode="HTML")
