@@ -38,7 +38,7 @@ def set_notifications(user_id: int, user_data: Dict) -> bool:
                 data = user_data
             )
         except Exception as e:
-            logger.error(
+            logger.exception(
                 f"user_id:{user_id} - Failed to create notification job: {e}",
                 exc_info=True
             )
@@ -61,7 +61,7 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
         try: # Creates body of text 
             subnets_info_text = get_subnets_info_text(subnets)
         except Exception as e:
-            logger.error(
+            logger.exception(
                 f"user_id:{chat_id} - API call failed: {e}",
                 exc_info=True
             )
@@ -73,6 +73,9 @@ async def send_notification(context: ContextTypes.DEFAULT_TYPE):
     try: # Sends message to user
         await context.bot.send_message(chat_id=chat_id, text=message, parse_mode="HTML")
     except Exception as e:
-        logger.error(f"user_id:{chat_id} - notifcation failed to send")
+        logger.exception(
+            f"user_id:{chat_id} - notifcation failed to send: {e}",
+            exc_info=True
+        )
     else:
         logger.info(f"user_id:{chat_id} - notifcation sent")

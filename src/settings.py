@@ -45,7 +45,7 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     try: # Update database for user settings
         update_database_user_settings(user_id, context.user_data)
     except: # TODO fix logging message
-        logger.info("fail 1")
+        logger.error(f"user_id:{user_id} - enable/disable")
 
     try:
         set_notifications(user_id, context.user_data)
@@ -118,7 +118,7 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
     try:
         set_notifications(user_id, context.user_data)
     except Exception as e:
-        logger.error(
+        logger.exception(
             f"user_id:{user_id} - Failed to create notification job: {e}",
             exc_info=True
         )
@@ -157,7 +157,7 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
         try:
             set_notifications(user_id, context.user_data)
         except Exception as e:
-            logger.error(
+            logger.exception(
                 f"user_id:{user_id} - Failed to create notification job: {e}",
                 exc_info=True
             )
