@@ -9,7 +9,6 @@ from simple_commands import show_commands
 from taostats_calls import valid_netuids_check
 from notification_handling import set_notifications
 from data_persistance import update_database_user_settings
-from debugging import *
 
 
 logger = logging.getLogger(__name__)
@@ -187,9 +186,7 @@ select_setting_commands = [
     CommandHandler("enable_disable", enable_disable),
     CommandHandler("select_sns", select_subnets),
     CommandHandler("notification_frequency", select_notification_frequency),
-    CommandHandler("back", back_select_command),
-    CommandHandler("test", test_notifications),
-    CommandHandler("user_data", test_user_data)
+    CommandHandler("back", back_select_command)
 ]
 
 enter_subnets_commands = [
