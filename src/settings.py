@@ -17,7 +17,7 @@ logger.setLevel(logging.INFO)
 
 async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Prints current user settings and prompts to select which setting to change"""
-    logger.info(f"user_id:{update.effective_user.id} - settings command")
+    logger.info(f"user_id:{update.message.chat.id} - settings command")
     # Obtain and store user settings
     notification_status = "🔔 On" if context.user_data.get('send_notifications', False) else "🔕 Off"
     subnets = context.user_data.get('notification_subnets', [])
@@ -38,7 +38,7 @@ async def settings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 
 async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Toggles on/off notificaitions"""
-    user_id = update.effective_user.id
+    user_id = update.message.chat.id
     logger.info(f"user_id:{user_id} - enable/disable")
     context.user_data['send_notifications'] = not context.user_data['send_notifications']
     update_database_user_settings(user_id, context.user_data)
@@ -51,13 +51,13 @@ async def enable_disable(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 async def select_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Prompt user to input subnets"""
-    logger.info(f"user_id:{update.effective_user.id} - select subnets")
+    logger.info(f"user_id:{update.message.chat.id} - select subnets")
     await update.message.reply_text(SELECT_SUBNETS_MESSAGE, parse_mode="HTML")
     return ENTER_SUBNETS
 
 async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Processes text and stores netuids"""
-    user_id = update.effective_user.id
+    user_id = update.message.chat.id
     logger.info(f"user_id:{user_id} - store subnets")
     text = update.message.text.strip() # Store user response
     logger.debug(f"user_id:{user_id} - user input: {text}")
@@ -85,13 +85,13 @@ async def store_subnets(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 
 async def select_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Prompt user to select notification frequency"""
-    logger.info(f"user_id:{update.effective_user.id} - select notification frequency")
+    logger.info(f"user_id:{update.message.chat.id} - select notification frequency")
     await update.message.reply_text(SELECT_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return SELECT_NOTIF_FREQ
 
 async def store_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Set notification frequency selected by user"""
-    user_id = update.effective_user.id
+    user_id = update.message.chat.id
     logger.info(f"user_id:{user_id} - store Notification Frequency")
     text = update.message.text # Store user response
 
@@ -112,13 +112,13 @@ async def store_notification_frequency(update: Update, context: ContextTypes.DEF
 
 async def custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Prompt user to input custom notification frequency"""
-    logger.info(f"user_id:{update.effective_user.id} - custom notification frequency")
+    logger.info(f"user_id:{update.message.chat.id} - custom notification frequency")
     await update.message.reply_text(CUSTOM_NOTIFICATION_FREQUENCY_MESSAGE, parse_mode="HTML")
     return CUSTOM_NOTIF_FREQ
 
 async def store_custom_notification_frequency(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Process and set custom notification frequency"""
-    user_id = update.effective_user.id
+    user_id = update.message.chat.id
     logger.info(f"user_id:{user_id} - store custom notification frequency")
     text = update.message.text.strip() # Store user response
 
@@ -147,17 +147,17 @@ async def store_custom_notification_frequency(update: Update, context: ContextTy
 # Functions to go back in conversation
 async def back_select_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Back to main menu"""
-    logger.info(f"user_id:{update.effective_user.id} - back")
+    logger.info(f"user_id:{update.message.chat.id} - back")
     return await show_commands(update, context)
 
 async def back_select_setting(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Back to settings menu"""
-    logger.info(f"user_id:{update.effective_user.id} - back")
+    logger.info(f"user_id:{update.message.chat.id} - back")
     return await settings_command(update, context)
 
 async def back_select_notif_freq(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Back to select notification frequency menu"""
-    logger.info(f"user_id:{update.effective_user.id} - back")
+    logger.info(f"user_id:{update.message.chat.id} - back")
     return await select_notification_frequency(update, context)
 
 

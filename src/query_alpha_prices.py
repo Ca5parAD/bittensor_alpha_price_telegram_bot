@@ -15,21 +15,21 @@ logger.setLevel(logging.INFO)
 
 async def query_subnet_price(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Prompt user to input or select which alpha prices to query"""
-    logger.info(f"user_id:{update.effective_user.id} - query subnet price")
+    logger.info(f"user_id:{update.message.chat.id} - query subnet price")
     await update.message.reply_text(ALPHA_PRICE_MESSAGE, parse_mode="HTML")
     return ENTER_ALPHA_PRICE
 
 async def process_netuids(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Process text into netuids and send prices message to user"""
-    logger.info(f"user_id:{update.effective_user.id} - process netuid")
+    logger.info(f"user_id:{update.message.chat.id} - process netuid")
     text = update.message.text.strip() # Store user input
-    logger.debug(f"user_id:{update.effective_user.id} - user input: {text}")
+    logger.debug(f"user_id:{update.message.chat.id} - user input: {text}")
 
     try: # Check validity of user response
         valid_subnets, invalid_netuids = valid_netuids_check(text)
  
     except ValueError as e: # Does this need to specify ValueError? # Show user message if invalid
-        logger.debug(f"user_id:{update.effective_user.id} - invalid input: {text} - {str(e)}")
+        logger.debug(f"user_id:{update.message.chat.id} - invalid input: {text} - {str(e)}")
         await update.message.reply_text(INVALID_PROCESS_NETUIDS, parse_mode="HTML")
         return ENTER_ALPHA_PRICE  # Stay in state for retry
     
@@ -61,7 +61,7 @@ async def process_netuids(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
 async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Send prices message of selected subnets to user"""
-    logger.info(f"user_id:{update.effective_user.id} - query 'my sns'")
+    logger.info(f"user_id:{update.message.chat.id} - query 'my sns'")
     subnets = context.user_data.get('notification_subnets', [])
     message = "<b>Alpha Prices</b> 📈\n"
     if not subnets:
@@ -86,7 +86,7 @@ async def my_sns(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 async def back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Goes back to main menu"""
-    logger.info(f"user_id:{update.effective_user.id} - back")
+    logger.info(f"user_id:{update.message.chat.id} - back")
     return await show_commands(update, context)
 
 
