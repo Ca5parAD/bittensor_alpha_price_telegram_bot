@@ -25,15 +25,14 @@ def initialise_from_database():
         cursor.execute('SELECT user_id, enable, subnets, frequency FROM user_settings')
         for row in cursor.fetchall():
             user_id, enable, subnets_json, frequency = row
-            if enable:  # Only recreate if enabled
-                subnets = json.loads(subnets_json) if subnets_json else []
-                user_data = {
-                    'send_notifications': enable,
-                    'notification_subnets': subnets,
-                    'notification_frequency': frequency
-                }
+            subnets = json.loads(subnets_json) if subnets_json else []
+            user_data = {
+                'send_notifications': enable,
+                'notification_subnets': subnets,
+                'notification_frequency': frequency
+            }
 
-                set_notifications(user_id, user_data)
+            set_notifications(user_id, user_data)
         conn.commit()
 
 
